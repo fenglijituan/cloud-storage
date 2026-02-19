@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordMaster Pro | 题型全能版</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #f3f4f6;
+            --bg-card: #ffffff;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --text-main: #111827;
+            --text-sub: #6b7280;
+            --border: #e5e7eb;
+            --input-bg: #f9fafb;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --success: #10b981;
+            --error: #ef4444;
+            --gradient: linear-gradient(135deg, #4f46e5 0%, #818cf8 100%);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --primary: #6366f1;
+            --primary-hover: #818cf8;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border: #334155;
+            --input-bg: #0f172a;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', system-ui, sans-serif; transition: all 0.2s ease; }
+        body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
+
+        /* --- Header --- */
+        header { width: 100%; max-width: 800px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-actions { display: flex; gap: 10px; align-items: center; }
+        .icon-btn { background: var(--bg-card); border: none; font-size: 1.2rem; cursor: pointer; padding: 8px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.05); color: var(--text-main); }
+        
+        /* --- Layout --- */
+        .container { width: 100%; max-width: 800px; padding: 0 1.5rem; }
+        .card { background: var(--bg-card); border-radius: 24px; padding: 2rem; box-shadow: var(--shadow); border: 1px solid var(--border); margin-bottom: 2rem; display: none; }
+        .card.active { display: block; animation: fadeUp 0.4s ease; }
+        
+        h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; }
+        .subtitle { color: var(--text-sub); margin-bottom: 2rem; }
+
+        /* --- Components --- */
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; background: var(--gradient); color: white; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3); }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-sub); box-shadow: none; }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-danger { background: var(--error); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); color: white; border: none; }
+
+        input, select { width: 100%; padding: 14px; border-radius: 12px; border: 2px solid var(--border); background: var(--input-bg); color: var(--text-main); font-size: 1rem; outline: none; margin-bottom: 1rem; }
+        input:focus { border-color: var(--primary); }
+
+        /* --- User & Unit Grid --- */
+        .grid-box { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+        .chip { padding: 8px; text-align: center; border-radius: 12px; background: var(--input-bg); border: 1px solid var(--border); cursor: pointer; font-size: 0.9rem; user-select: none; position: relative; }
+        .chip.selected { background: var(--primary); color: white; border-color: var(--primary); }
+        .user-del-btn { position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; background: var(--bg-card); border: 1px solid var(--error); color: var(--error); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; z-index: 10; }
+
+        /* --- Quiz --- */
+        .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 2rem; }
+        .progress-fill { height: 100%; background: var(--gradient); width: 0%; transition: width 0.3s; }
+        .big-word { font-size: 2.5rem; font-weight: 800; text-align: center; margin-bottom: 0.5rem; }
+        .hint-text { text-align: center; color: var(--text-sub); margin-bottom: 2rem; display: block; }
+        .shake { animation: shake 0.4s ease; border-color: var(--error) !important; }
+
+        /* --- Mistake & History UI --- */
+        .list-item { display: flex; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border); gap: 1rem; }
+        .list-item:last-child { border-bottom: none; }
+        .custom-checkbox { width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary); }
+
+        /* Review Selection List */
+        .review-select-list { max-height: 200px; overflow-y: auto; background: var(--input-bg); border-radius: 12px; padding: 10px; margin-bottom: 15px; border: 1px solid var(--border); }
+
+        /* History Details */
+        .history-card { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+        .history-header { padding: 1rem; background: var(--input-bg); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .history-body { display: none; padding: 1rem; background: var(--bg-card); }
+        .history-body.show { display: block; }
+        .history-row { display: grid; grid-template-columns: 2fr 2fr 2fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .history-row.wrong { color: var(--error); }
+        .history-row.correct { color: var(--success); }
+
+        /* --- Modals --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .modal { background: var(--bg-card); padding: 2rem; border-radius: 20px; width: 90%; max-width: 450px; text-align: center; box-shadow: var(--shadow); max-height: 80vh; overflow-y: auto; }
+        .check-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; text-align: left; font-size: 0.9rem; color: var(--text-sub); }
+        
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+        /* Print optimization */
+        @media print {
+            body { background: white; color: black; }
+            header, .btn, .nav-actions, .custom-checkbox, .grid-box, #mistake-actions, .btn-outline, #review-mode-select { display: none !important; }
+            .card { display: none; }
+            #view-mistakes { display: block !important; box-shadow: none; border: none; }
+            .print-table { display: table !important; width: 100%; border-collapse: collapse; margin-top: 20px; }
+            .print-table th, .print-table td { border: 1px solid black; padding: 8px; }
+            .list-item { display: none !important; }
+            #print-title { display: block !important; }
+        }
+        .print-table, #print-title { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">WordMaster Pro</div>
+        <div class="nav-actions">
+            <button class="icon-btn" onclick="App.toggleTheme()" title="切换模式">🌓</button>
+            <button class="icon-btn" id="btn-history" onclick="App.showHistory()" style="display:none" title="历史记录">📜</button>
+            <button class="icon-btn" id="btn-logout" onclick="App.logout()" style="display:none" title="退出登录">🚪</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- 1. 登录界面 -->
+        <div id="view-login" class="card active">
+            <h2>谁在学习？</h2>
+            <p class="subtitle">请选择你的档案，记录将独立保存。</p>
+            <div id="user-grid" class="grid-box"></div>
+            <div style="margin-top:20px; display:flex; gap:10px;">
+                <input type="text" id="new-user-input" placeholder="输入新名字" style="margin:0;">
+                <button class="btn" style="width:auto;" onclick="App.createUser()">添加</button>
+            </div>
+        </div>
+
+        <!-- 2. 主页 -->
+        <div id="view-dashboard" class="card">
+            <h2 id="welcome-text">Hi!</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:8px; font-weight:bold;">挑战模式</label>
+                <select id="mode-select" onchange="App.toggleBattleMode()">
+                    <option value="single">👤 单人练习</option>
+                    <option value="battle">⚔️ 双人对战 (接力模式)</option>
+                </select>
+                <div id="battle-options" style="display:none; padding:10px; background:var(--input-bg); border-radius:10px; margin-top:10px;">
+                    <label style="font-size:0.9rem; color:var(--text-sub);">选择对手 (Player B)</label>
+                    <select id="opponent-select" style="margin-bottom:0;"></select>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <label style="font-weight:bold;">选择单元</label>
+                    <div>
+                        <small onclick="App.selectUnits('all')" style="color:var(--primary); cursor:pointer; margin-right:10px;">全选</small>
+                        <small onclick="App.selectUnits('none')" style="cursor:pointer; color:var(--text-sub);">清空</small>
+                    </div>
+                </div>
+                <div id="unit-grid" class="grid-box" style="max-height:150px; overflow-y:auto;"></div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display:block; margin-bottom:8px; font-weight:bold;">题型</label>
+                <select id="q-type">
+                    <option value="cn_en">汉译英 (看中文写英文)</option>
+                    <option value="en_cn">英译汉 (看英文写中文)</option>
+                    <option value="dictation">听写 (听音写词)</option>
+                </select>
+            </div>
+
+            <!-- TTS语音设置 -->
+            <div style="background: var(--input-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                <h3 style="font-size: 1.1rem; margin-bottom: 10px;">🔊 语音设置</h3>
+                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                    <label style="min-width: 80px;">中文音色:</label>
+                    <select id="voice-zh" onchange="App.saveVoiceSettings()" style="flex: 1; margin-bottom: 0;">
+                        <option value="">默认</option>
+                    </select>
+                    <button class="btn btn-outline" style="width: auto; padding: 8px 16px; margin: 0;" onclick="App.testVoice('zh')">试听</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin: 10px 0;">
+                    <label style="min-width: 80px;">英文音色:</label>
+                    <select id="voice-en" onchange="App.saveVoiceSettings()" style="flex: 1; margin-bottom: 0;">
+                        <option value="">默认</option>
+                    </select>
+                    <button class="btn btn-outline" style="width: auto; padding: 8px 16px; margin: 0;" onclick="App.testVoice('en')">试听</button>
+                </div>
+            </div>
+
+            <!-- 出题顺序设置 -->
+            <div style="background: var(--input-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+                <h3 style="font-size: 1.1rem; margin-bottom: 10px;">📋 出题顺序</h3>
+                <select id="word-order" style="margin-bottom: 0;">
+                    <option value="random">乱序（随机打乱）</option>
+                    <option value="sequential">正序（按Unit顺序）</option>
+                </select>
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button class="btn" onclick="Game.init()">开始挑战</button>
+                <button class="btn btn-outline" style="width:auto;" onclick="App.showMistakes()">📕 错题本</button>
+            </div>
+        </div>
+
+        <!-- 3. 答题界面 -->
+        <div id="view-quiz" class="card">
+            <div id="battle-info" style="text-align:center; margin-bottom:15px; font-weight:bold; color:var(--primary); display:none;">
+                当前回合: <span id="current-player-display">User</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progress-bar"></div></div>
+            <div style="text-align:center;">
+                <div style="font-size:2rem; cursor:pointer; margin-bottom:10px;" onclick="Game.playAudio()">🔊</div>
+                <div id="q-main" class="big-word">Question</div>
+                <div id="q-sub" class="hint-text">Hint</div>
+                <input type="text" id="q-input" autocomplete="off" placeholder="输入答案..." style="text-align:center; font-size:1.2rem;">
+                <div id="feedback" style="height:30px; font-weight:bold; margin-bottom:10px;"></div>
+                <button class="btn" onclick="Game.checkAnswer()">提交</button>
+                <button class="btn btn-outline" onclick="App.goDashboard()" style="margin-top:10px;">退出</button>
+            </div>
+        </div>
+
+        <!-- 4. 中场休息 -->
+        <div id="view-intermission" class="card" style="text-align:center;">
+            <h1>⏸️</h1>
+            <h2>中场休息</h2>
+            <p class="subtitle">请将设备交给 <strong id="next-player-name" style="color:var(--primary)">Player B</strong></p>
+            <button class="btn" onclick="Game.startPhase2()">准备好了，开始！</button>
+        </div>
+
+        <!-- 5. 结果页 -->
+        <div id="view-result" class="card" style="text-align:center;">
+            <h1>🎉</h1>
+            <h2 id="result-title">挑战结束</h2>
+            <div id="result-details" style="margin:20px 0;"></div>
+            
+            <!-- 复习模式专用操作区 -->
+            <div id="review-clear-actions" style="display:none; background:var(--input-bg); padding:15px; border-radius:12px; margin-bottom:20px; border:1px solid var(--border); text-align:left;">
+                <p style="color:var(--success); font-weight:bold; margin-bottom:10px; text-align:center;">本次复习答对单词 (可选删除)</p>
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <small>勾选 = 删除</small>
+                    <small style="color:var(--primary); cursor:pointer;" onclick="App.toggleReviewSelectAll()">全选/反选</small>
+                </div>
+                <div id="review-correct-list" class="review-select-list"></div>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn btn-danger" onclick="App.deleteSelectedReviewMistakes()">删除选中</button>
+                    <button class="btn btn-outline" onclick="App.goMistakes()">全部保留</button>
+                </div>
+            </div>
+
+            <button id="btn-back-home" class="btn" onclick="App.goDashboard()">返回主页</button>
+        </div>
+
+        <!-- 6. 错题本 -->
+        <div id="view-mistakes" class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h2>错题本</h2>
+                <div style="display:flex; gap:5px;">
+                    <button class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="App.exportMistakes()">⬇️ 导出</button>
+                    <button class="btn btn-outline" style="width:auto; padding:5px 10px; font-size:0.8rem;" onclick="document.getElementById('import-file').click()">⬆️ 导入</button>
+                    <input type="file" id="import-file" style="display:none" accept=".json" onchange="App.importMistakes(this)">
+                </div>
+            </div>
+
+            <div style="margin-bottom:15px; display:flex; gap:10px;">
+                <button class="btn" style="flex:1;" onclick="App.printMistakes('all')">🖨️ 打印全部</button>
+                <button class="btn btn-outline" style="flex:1;" onclick="App.printMistakes('new')">🖨️ 仅打新词</button>
+                <button class="btn btn-outline" style="flex:0.5; padding-left:0; padding-right:0;" onclick="App.openAddMistakeModal()">➕</button>
+            </div>
+
+            <div id="mistake-actions" style="display:flex; justify-content:space-between; margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid var(--border);">
+                <div>
+                    <input type="checkbox" id="select-all" class="custom-checkbox" onchange="App.toggleSelectAll(this)">
+                    <label for="select-all" style="display:inline; margin-left:5px; cursor:pointer;">全选</label>
+                </div>
+                <button class="btn btn-danger" style="width:auto; padding:5px 15px; font-size:0.9rem;" onclick="App.confirmDelete()">🗑️ 删除选中</button>
+            </div>
+
+            <div id="mistake-list" style="max-height:300px; overflow-y:auto; margin-bottom:15px;"></div>
+
+            <!-- 打印专用标题和表格 -->
+            <h1 id="print-title" style="text-align:center;">错题集锦</h1>
+            <table class="print-table">
+                <thead><tr><th>单词</th><th>词性</th><th>释义</th><th>错误次数</th></tr></thead>
+                <tbody id="print-tbody"></tbody>
+            </table>
+
+            <!-- 复习题型选择与开始按钮 -->
+            <div style="padding-top:15px; border-top:1px solid var(--border);">
+                <label style="font-size:0.9rem; font-weight:bold; color:var(--text-sub); display:block; margin-bottom:5px;">复习出题模式：</label>
+                <select id="review-mode-select" style="margin-bottom:10px;">
+                    <option value="cn_en">汉译英 (看中文写英文)</option>
+                    <option value="en_cn">英译汉 (看英文写中文)</option>
+                    <option value="dictation">听写 (听音写词)</option>
+                    <option value="original">🔄 按当时错题记录</option>
+                </select>
+                
+                <label style="font-size:0.9rem; font-weight:bold; color:var(--text-sub); display:block; margin-bottom:5px;">复习顺序：</label>
+                <select id="review-order" style="margin-bottom:10px;">
+                    <option value="random">乱序（随机）</option>
+                    <option value="sequential">正序（按添加顺序）</option>
+                </select>
+                
+                <button class="btn" onclick="Game.reviewMistakes()">开始复习错题</button>
+                
+                <div style="margin-top:10px; text-align:center;">
+                    <small style="color:var(--text-sub); cursor:pointer; text-decoration:underline;" onclick="App.goDashboard()">返回主页</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. 历史记录 -->
+        <div id="view-history" class="card">
+            <h2>📜 答题记录</h2>
+            <div id="history-list" style="max-height:500px; overflow-y:auto;"></div>
+            <button class="btn btn-outline" onclick="App.goDashboard()" style="margin-top:20px;">返回</button>
+        </div>
+    </div>
+
+    <!-- 弹窗：确认删除单词 -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal">
+            <h3 style="margin-bottom:15px; color:var(--error);">确认删除?</h3>
+            <p style="margin-bottom:20px; color:var(--text-sub);">这些错题将从错题本中移除。</p>
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-outline" onclick="document.getElementById('delete-modal').style.display='none'">取消</button>
+                <button class="btn btn-danger" onclick="App.executeDelete()">确认删除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗：手动添加错题 -->
+    <div class="modal-overlay" id="add-manual-modal">
+        <div class="modal" style="max-width:600px;">
+            <h3 style="margin-bottom:15px;">添加单词至错题本</h3>
+            <div id="add-step-1">
+                <p class="subtitle">选择单元:</p>
+                <div id="manual-unit-grid" class="grid-box"></div>
+            </div>
+            <div id="add-step-2" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <button class="btn-outline" style="width:auto; padding:5px 10px;" onclick="App.resetManualAdd()">← 返回</button>
+                    <span style="font-weight:bold;">选择单词</span>
+                </div>
+                <div id="manual-word-list" style="max-height:300px; overflow-y:auto; text-align:left;"></div>
+                <button class="btn" style="margin-top:15px;" onclick="App.saveManualWords()">确认添加</button>
+            </div>
+            <button class="btn btn-outline" style="margin-top:20px;" onclick="document.getElementById('add-manual-modal').style.display='none'">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗：用户删除 -->
+    <div class="modal-overlay" id="user-delete-modal">
+        <div class="modal">
+            <h2 style="color:var(--error); margin-bottom:10px;">⚠️ 危险操作</h2>
+            <p style="margin-bottom:20px;">删除用户 <strong id="del-user-name" style="color:var(--primary)"></strong></p>
+            <div style="background:var(--input-bg); padding:15px; border-radius:12px; margin-bottom:20px;">
+                <div class="check-row"><input type="checkbox" id="chk-1" class="custom-checkbox" onchange="App.checkUserDelState()"><label for="chk-1">确认清空历史</label></div>
+                <div class="check-row"><input type="checkbox" id="chk-2" class="custom-checkbox" onchange="App.checkUserDelState()"><label for="chk-2">确认清空错题</label></div>
+                <div class="check-row"><input type="checkbox" id="chk-3" class="custom-checkbox" onchange="App.checkUserDelState()"><label for="chk-3">不可撤销</label></div>
+            </div>
+            <p style="font-size:0.9rem; margin-bottom:5px;">输入：<span id="del-confirm-str" style="font-family:monospace; font-weight:bold;"></span></p>
+            <input type="text" id="del-user-input" oninput="App.checkUserDelState()">
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-outline" onclick="document.getElementById('user-delete-modal').style.display='none'">取消</button>
+                <button class="btn btn-danger" id="btn-final-del-user" disabled onclick="App.executeUserDelete()">删除</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+/* ================= DATA (请粘贴30单元完整内容) ================= */
+const rawData = `
+# UNIT 1
+1. bay：n. 海湾
+2. bloom：n. 花朵
+3. cliff：n. 悬崖
+4. climate：n. 气候
+5. coast：n. 海岸
+6. coral：n. 珊瑚
+7. district：n. 区域
+8. fossil：n. 化石
+9. galaxy：n. 星系
+10. pollution：n. 污染
+11. pond：n. 池塘
+12. recycle：v. 回收利用
+13. region：n. 地区
+14. scenery：n. 风景
+15. shore：n. 海滨
+16. soil：n. 土壤
+17. stream：n. 小溪
+18. trash：n. 垃圾
+19. universe：n. 宇宙
+20. wave：n. 波浪
+
+# UNIT 2
+1. adapt：v. 适应
+2. continent：n. 大陆
+3. disaster：n. 灾难
+4. environment：n. 环境
+5. flame：n. 火焰
+6. flood：n. 洪水
+7. forecast：n. 预报
+8. freeze：v. 冷冻
+9. frozen：adj. 冷冻的
+10. global：adj. 全球的
+11. humid：adj. 潮湿的
+12. impact：n. 影响
+13. landscape：n. 地貌
+14. oxygen：n. 氧气
+15. peak：n. 山峰
+16. polar：adj. 极地的
+17. rise：v. 上升
+18. root：n. 根
+19. underwater：adj. 在水下的
+20. wave：n. 波浪
+
+# UNIT 3
+1. border：n. 边境
+2. brake：n. 制动器
+3. convenient：adj. 方便的
+4. crash：n. 碰撞
+5. crew：n. 工作人员
+6. cycle：n. 循环
+7. eastern：adj. 东方的
+8. entry：n. 入口
+9. expedition：n. 探险
+10. movement：n. 运动
+11. rail：n. 铁路
+12. reserve：v. 预订
+13. resort：n. 度假胜地
+14. sailor：n. 水手
+15. souvenir：n. 纪念品
+16. tourism：n. 旅游业
+17. transportation：n. 交通
+18. tropical：adj. 热带的
+19. wander：v. 漫步
+20. travel：n. 旅行
+
+# UNIT 4
+1. abroad：adv. 在国外
+2. ahead：adv. 在前面
+3. aircraft：n. 飞机
+4. baggage：n. 行李
+5. campsite：n. 露营地
+6. cruise：n. 乘船游览
+7. destination：n. 目的地
+8. fuel：n. 燃料
+9. jet：n. 喷气式飞机
+10. lane：n. 车道
+11. launch：v. 启动
+12. motor：n. 发动机
+13. rush：v. 匆忙
+14. signal：n. 信号
+15. southern：adj. 南方的
+16. steer：v. 驾驶
+17. tunnel：n. 隧道
+18. vehicle：n. 交通工具
+19. via：prep. 通过
+20. western：adj. 西方的
+
+# UNIT 5
+1. agent：n. 代理人
+2. apply：v. 申请
+3. assistant：n. 助理
+4. chief：n. 首领
+5. client：n. 客户
+6. committee：n. 委员会
+7. editor：n. 编辑
+8. full-time：adj. 全职的
+9. hire：v. 雇佣
+10. import：n. 进口
+11. issue：n. 问题
+12. manufacture：v. 制造
+13. minister：n. 部长
+14. priest：n. 牧师
+15. producer：n. 制作人
+16. production：n. 制作
+17. promotion：n. 晋升
+18. retire：v. 退休
+19. specialist：n. 专家
+20. work：n. 工作
+
+# UNIT 6
+1. barber：n. 理发师
+2. boss：n. 老板
+3. capable：adj. 有能力的
+4. chart：n. 图表
+5. contract：n. 合同
+6. debate：n. 辩论
+7. employ：v. 雇佣
+8. expert：n. 专家
+9. guide：n. 向导
+10. profession：n. 职业
+11. profit：n. 利润
+12. promote：v. 晋升
+13. report：n. 报告
+14. responsibility：n. 责任
+15. schedule：n. 日程表
+16. servant：n. 仆人
+17. signature：n. 签名
+18. spare：adj. 空闲的
+19. strike：n. 罢工
+20. survey：n. 调查
+
+# UNIT 7
+1. ally：n. 伙伴
+2. argue：v. 争辩
+3. armor：n. 装甲
+4. arrow：n. 箭
+5. attack：n. 攻击
+6. attention：n. 注意力
+7. captain：n. 队长
+8. defeat：v. 击败
+9. guard：n. 卫兵
+10. gun：n. 枪
+11. helmet：n. 头盔
+12. jeep：n. 吉普车
+13. military：adj. 军事的
+14. navy：n. 海军
+15. peace：n. 和平
+16. soldier：n. 士兵
+17. submarine：n. 潜水艇
+18. tank：n. 坦克
+19. weapon：n. 武器
+20. war：n. 战争
+
+# UNIT 8
+1. agreement：n. 协议
+2. army：n. 军队
+3. aviation：n. 航空
+4. battle：n. 战斗
+5. capital：n. 首都
+6. charity：n. 慈善
+7. crisis：n. 危机
+8. gain：v. 获得
+9. government：n. 政府
+10. independent：adj. 独立的
+11. leader：n. 领导者
+12. marine：adj. 海军的
+13. nation：n. 国家
+14. national：adj. 国家的
+15. official：n. 官员
+16. president：n. 总统
+17. public：adj. 公共的
+18. revolution：n. 革命
+19. social：adj. 社会的
+20. society：n. 社会
+
+# UNIT 9
+1. authority：n. 权威
+2. blame：v. 责备
+3. candidate：n. 候选人
+4. citizen：n. 公民
+5. council：n. 议会
+6. democracy：n. 民主
+7. deny：v. 否认
+8. domestic：adj. 国内的
+9. election：n. 选举
+10. federal：adj. 联邦的
+11. govern：v. 管理
+12. influence：n. 影响
+13. massive：adj. 巨大的
+14. parliament：n. 国会
+15. policy：n. 政策
+16. politician：n. 政治家
+17. politics：n. 政治
+18. regulation：n. 规章
+19. republic：n. 共和国
+20. royal：adj. 皇家的
+
+# UNIT 10
+1. clue：n. 线索
+2. crime：n. 罪行
+3. criminal：n. 罪犯
+4. danger：n. 危险
+5. death：n. 死亡
+6. evidence：n. 证据
+7. guilty：adj. 有罪的
+8. illegal：adj. 非法的
+9. jail：n. 监狱
+10. justice：n. 正义
+11. law：n. 法律
+12. legal：adj. 合法的
+13. police：n. 警察
+14. prison：n. 监狱
+15. prisoner：n. 囚犯
+16. punish：v. 惩罚
+17. punishment：n. 处罚
+18. rule：n. 规则
+19. thief：n. 小偷
+20. trick：n. 诡计
+
+# UNIT 11
+1. accuse：v. 控告
+2. armed：adj. 武装的
+3. arrest：n. 逮捕
+4. bullet：n. 子弹
+5. commit：v. 犯罪
+6. cruel：adj. 残忍的
+7. deliberate：adj. 故意的
+8. fear：n. 害怕
+9. frighten：v. 使害怕
+10. hold：v. 关押
+11. innocent：adj. 无辜的
+12. penalty：n. 处罚
+13. potential：adj. 潜在的
+14. pretend：v. 假装
+15. risk：n. 风险
+16. shock：n. 震惊
+17. suspect：n. 嫌疑人
+18. suspicion：n. 怀疑
+19. trial：n. 审判
+20. witness：n. 目击者
+
+# UNIT 12
+1. arithmetic：n. 算术
+2. billion：num. 十亿
+3. calculate：v. 计算
+4. compass：n. 指南针
+5. divide：v. 除
+6. division：n. 除法
+7. dozen：n. 一打
+8. equation：n. 方程式
+9. even：adj. 偶数的
+10. formula：n. 公式
+11. fraction：n. 分数
+12. graph：n. 曲线图
+13. less：adj. 更少的
+14. minus：prep. 减
+15. multiply：v. 乘
+16. ordinal：adj. 序数的
+17. percent：n. 百分比
+18. plus：prep. 加
+19. quarter：n. 四分之一
+20. subtract：v. 扣除
+
+# UNIT 13
+1. certificate：n. 证书
+2. creativity：n. 创造力
+3. degree：n. 学位
+4. demand：n. 需求
+5. direction：n. 方向
+6. education：n. 教育
+7. elementary：adj. 初级的
+8. examination：n. 考试
+9. focus：n. 焦点
+10. instruction：n. 说明
+11. intelligence：n. 智力
+12. knowledge：n. 知识
+13. major：n. 专业
+14. mark：n. 分数
+15. master：v. 掌握
+16. mentor：n. 导师
+17. section：n. 部分
+18. solve：v. 解决
+19. standard：n. 标准
+20. tuition：n. 学费
+
+# UNIT 14
+1. academic：adj. 学术的
+2. curriculum：n. 课程
+3. diploma：n. 文凭
+4. draft：n. 草稿
+5. educate：v. 教育
+6. educational：adj. 教育的
+7. fail：v. 不及格
+8. graduation：n. 毕业
+9. institution：n. 机构
+10. lecturer：n. 讲师
+11. literacy：n. 读写能力
+12. minor：adj. 次要的
+13. philosophy：n. 哲学
+14. progressive：adj. 进步的
+15. reference：n. 参考
+16. term：n. 学期
+17. tutor：n. 导师
+18. tutorial：n. 辅导课
+19. union：n. 协会
+20. study：n. 学习
+
+# UNIT 15
+1. annoy：v. 使恼怒
+2. belief：n. 信念
+3. belong：v. 属于
+4. charm：n. 魅力
+5. cheat：v. 欺骗
+6. depressed：adj. 沮丧的
+7. disappoint：v. 使失望
+8. embarrassed：adj. 尴尬的
+9. intelligent：adj. 聪明的
+10. jealous：adj. 嫉妒的
+11. lively：adj. 活泼的
+12. lonely：adj. 孤独的
+13. miserable：adj. 痛苦的
+14. negative：adj. 消极的
+15. nervous：adj. 紧张的
+16. positive：adj. 积极的
+17. pride：n. 自豪
+18. respect：v. 尊重
+19. satisfy：v. 使满意
+20. severe：adj. 严厉的
+
+# UNIT 16
+1. anger：n. 愤怒
+2. anxiety：n. 焦虑
+3. anxious：adj. 担忧的
+4. appeal：n. 吸引
+5. appreciate：v. 感激
+6. aware：adj. 意识到的
+7. awkward：adj. 笨拙的
+8. comfort：n. 安慰
+9. command：n. 命令
+10. concern：n. 担忧
+11. confidence：n. 信心
+12. esteem：n. 尊重
+13. extreme：adj. 极度的
+14. fright：n. 惊吓
+15. grief：n. 悲痛
+16. hopeless：adj. 绝望的
+17. sensible：adj. 明智的
+18. tense：adj. 紧绷的
+19. thoughtful：adj. 体贴的
+20. wisdom：n. 智慧
+`;
+
+function parseData(txt) {
+    const units = []; let cur = 0;
+    txt.split('\n').forEach(line => {
+        line = line.trim(); if(!line) return;
+        if(line.includes('UNIT')) cur = parseInt(line.match(/\d+/)[0]);
+        else {
+            const m = line.match(/^\d+\.\s*([a-zA-Z]+)\s*[：:]\s*([a-z.]+)\s+(.+)$/);
+            if(m && cur > 0) units.push({u: cur, en: m[1], type: m[2], cn: m[3], id: `${cur}-${m[1]}`});
+        }
+    });
+    if(cur < 30) for(let i=cur+1; i<=30; i++) units.push({u: i, en: 'demo', type: 'n.', cn: '演示', id: `${i}-demo`});
+    return units;
+}
+const ALL_WORDS = parseData(rawData);
+
+/* ================= DATABASE ================= */
+const DB = {
+    // ⚠️ 保持 vm_users_v3 以确保数据不丢失
+    get: () => JSON.parse(localStorage.getItem('wm_users_v3')) || {},
+    save: (data) => localStorage.setItem('wm_users_v3', JSON.stringify(data)),
+    
+    initUser: (name) => {
+        const d = DB.get();
+        if(!d[name]) { d[name] = { mistakes: {}, history: [], lastPrint: 0 }; DB.save(d); }
+    },
+    deleteUser: (name) => {
+        const d = DB.get(); delete d[name]; DB.save(d);
+    },
+    // 更新：增加 qType 参数，记录错题时的题型
+    addMistake: (name, word, qType) => {
+        const d = DB.get();
+        // 默认题型为 cn_en (如果以前没记录过)
+        const typeToSave = qType || 'cn_en';
+        
+        if(!d[name].mistakes[word.id]) {
+            d[name].mistakes[word.id] = {
+                ...word, 
+                count: 1, 
+                addedAt: Date.now(),
+                errorType: typeToSave // 记录错误类型
+            };
+        } else {
+            d[name].mistakes[word.id].count++;
+            d[name].mistakes[word.id].errorType = typeToSave; // 更新为最新错误类型
+        }
+        DB.save(d);
+    },
+    removeMistake: (name, id) => {
+        const d = DB.get(); delete d[name].mistakes[id]; DB.save(d);
+    },
+    addHistory: (name, record) => {
+        const d = DB.get(); d[name].history.unshift(record); 
+        if(d[name].history.length > 50) d[name].history.pop();
+        DB.save(d);
+    },
+    updateLastPrint: (name) => {
+        const d = DB.get(); d[name].lastPrint = Date.now(); DB.save(d);
+    }
+};
+
+/* ================= APP LOGIC ================= */
+const App = {
+    user: null, units: new Set(), userToDelete: null, reviewCorrectList: [],
+    
+    init: () => {
+        const t = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', t);
+        App.renderUserGrid(); App.renderUnitGrid();
+        
+        // 加载TTS音色列表
+        if (window.speechSynthesis.onvoiceschanged !== undefined) {
+            window.speechSynthesis.onvoiceschanged = App.loadVoices;
+        }
+        App.loadVoices();
+    },
+    
+    // TTS音色管理
+    loadVoices: () => {
+        const voices = window.speechSynthesis.getVoices();
+        const zhSelect = document.getElementById('voice-zh');
+        const enSelect = document.getElementById('voice-en');
+        
+        if (!zhSelect || !enSelect) return;
+        
+        zhSelect.innerHTML = '<option value="">默认</option>';
+        enSelect.innerHTML = '<option value="">默认</option>';
+        
+        // 中文音色
+        voices.filter(v => v.lang.startsWith('zh')).forEach(v => {
+            zhSelect.innerHTML += `<option value="${v.name}">${v.name} (${v.lang})</option>`;
+        });
+        
+        // 英文音色
+        voices.filter(v => v.lang.startsWith('en')).forEach(v => {
+            enSelect.innerHTML += `<option value="${v.name}">${v.name} (${v.lang})</option>`;
+        });
+        
+        // 加载保存的设置
+        const saved = JSON.parse(localStorage.getItem('tts_settings') || '{}');
+        if (saved.zh) zhSelect.value = saved.zh;
+        if (saved.en) enSelect.value = saved.en;
+    },
+    
+    saveVoiceSettings: () => {
+        const settings = {
+            zh: document.getElementById('voice-zh')?.value || '',
+            en: document.getElementById('voice-en')?.value || ''
+        };
+        localStorage.setItem('tts_settings', JSON.stringify(settings));
+    },
+    
+    testVoice: (lang) => {
+        const text = lang === 'zh' ? '你好，这是测试语音' : 'Hello, this is a test voice';
+        const voiceName = document.getElementById(`voice-${lang}`)?.value;
+        Game.speak(text, lang === 'zh' ? 'zh-CN' : 'en-US', voiceName);
+    },
+
+    toggleTheme: () => {
+        const n = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', n); localStorage.setItem('theme', n);
+    },
+
+    // User Flow
+    renderUserGrid: () => {
+        const box = document.getElementById('user-grid'); box.innerHTML = '';
+        Object.keys(DB.get()).forEach(u => {
+            const el = document.createElement('div'); el.className = 'chip';
+            el.innerHTML = `👤 ${u} <div class="user-del-btn" onclick="event.stopPropagation();App.promptDeleteUser('${u}')">✕</div>`;
+            el.onclick = () => App.login(u); box.appendChild(el);
+        });
+    },
+    createUser: () => {
+        const n = document.getElementById('new-user-input').value.trim();
+        if(n) { DB.initUser(n); document.getElementById('new-user-input').value = ''; App.renderUserGrid(); }
+    },
+    login: (n) => {
+        App.user = n;
+        document.getElementById('welcome-text').innerText = `Hi, ${n}!`;
+        document.getElementById('btn-history').style.display = 'block';
+        document.getElementById('btn-logout').style.display = 'block';
+        const sel = document.getElementById('opponent-select'); sel.innerHTML = '';
+        Object.keys(DB.get()).forEach(u => { if(u !== n) sel.innerHTML += `<option value="${u}">${u}</option>`; });
+        App.switchView('view-dashboard');
+    },
+    logout: () => { App.user = null; App.switchView('view-login'); document.getElementById('btn-history').style.display = 'none'; document.getElementById('btn-logout').style.display = 'none'; },
+
+    // Deletion
+    promptDeleteUser: (n) => {
+        App.userToDelete = n; document.getElementById('del-user-name').innerText = n;
+        document.getElementById('del-confirm-str').innerText = `我确认删除用户${n}`;
+        ['chk-1','chk-2','chk-3'].forEach(i=>document.getElementById(i).checked=false);
+        document.getElementById('del-user-input').value=''; document.getElementById('btn-final-del-user').disabled=true;
+        document.getElementById('user-delete-modal').style.display = 'flex';
+    },
+    checkUserDelState: () => {
+        const ok = ['chk-1','chk-2','chk-3'].every(i=>document.getElementById(i).checked) && 
+                   document.getElementById('del-user-input').value === `我确认删除用户${App.userToDelete}`;
+        document.getElementById('btn-final-del-user').disabled = !ok;
+    },
+    executeUserDelete: () => { DB.deleteUser(App.userToDelete); App.renderUserGrid(); document.getElementById('user-delete-modal').style.display='none'; },
+
+    // Nav
+    switchView: (id) => { document.querySelectorAll('.card').forEach(c=>c.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); },
+    goDashboard: () => { App.switchView('view-dashboard'); Game.isReview = false; },
+    goMistakes: () => App.showMistakes(),
+
+    // Units
+    renderUnitGrid: () => {
+        const box = document.getElementById('unit-grid'); box.innerHTML = '';
+        for(let i=1; i<=30; i++) {
+            const el = document.createElement('div'); el.className = 'chip'; el.innerText = `U ${i}`;
+            el.onclick = () => { if(App.units.has(i)) {App.units.delete(i);el.classList.remove('selected');} else {App.units.add(i);el.classList.add('selected');} };
+            box.appendChild(el);
+        }
+    },
+    selectUnits: (m) => {
+        const c = document.querySelectorAll('#unit-grid .chip');
+        if(m === 'all') { for(let i=1; i<=30; i++) App.units.add(i); c.forEach(x=>x.classList.add('selected')); }
+        else { App.units.clear(); c.forEach(x=>x.classList.remove('selected')); }
+    },
+    toggleBattleMode: () => { document.getElementById('battle-options').style.display = document.getElementById('mode-select').value === 'battle' ? 'block' : 'none'; },
+
+    // Mistake Book
+    showMistakes: () => {
+        App.switchView('view-mistakes');
+        const list = document.getElementById('mistake-list'); list.innerHTML = '';
+        document.getElementById('select-all').checked = false;
+        const data = DB.get()[App.user].mistakes;
+        const ids = Object.keys(data);
+        if(ids.length === 0) list.innerHTML = '<div style="text-align:center;padding:20px;color:#aaa">暂无错题</div>';
+        ids.forEach(id => {
+            const w = data[id];
+            const div = document.createElement('div'); div.className = 'list-item';
+            div.innerHTML = `<input type="checkbox" class="custom-checkbox mistake-check" value="${id}"><div style="flex:1;"><strong style="color:var(--primary)">${w.en}</strong><div style="font-size:0.9rem;color:#666">${w.type} ${w.cn}</div></div><span style="color:var(--error);font-size:0.9rem">错 ${w.count}次</span>`;
+            list.appendChild(div);
+        });
+    },
+    toggleSelectAll: (el) => document.querySelectorAll('.mistake-check').forEach(cb=>cb.checked=el.checked),
+    confirmDelete: () => { if(document.querySelectorAll('.mistake-check:checked').length) document.getElementById('delete-modal').style.display='flex'; },
+    executeDelete: () => {
+        document.querySelectorAll('.mistake-check:checked').forEach(cb => DB.removeMistake(App.user, cb.value));
+        document.getElementById('delete-modal').style.display = 'none'; App.showMistakes();
+    },
+
+    // Export / Import
+    exportMistakes: () => {
+        const data = DB.get()[App.user].mistakes;
+        const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = `${App.user}_mistakes_${new Date().toISOString().slice(0,10)}.json`; a.click();
+    },
+    importMistakes: (input) => {
+        const file = input.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const imported = JSON.parse(e.target.result);
+                Object.values(imported).forEach(w => DB.addMistake(App.user, w));
+                alert('导入成功！已合并到现有错题本。'); App.showMistakes();
+            } catch(err) { alert('文件格式错误'); }
+        };
+        reader.readAsText(file); input.value = '';
+    },
+
+    // Printing
+    printMistakes: (mode) => {
+        const data = DB.get()[App.user].mistakes;
+        const tbody = document.getElementById('print-tbody'); tbody.innerHTML = '';
+        const lastP = DB.get()[App.user].lastPrint || 0;
+        let count = 0;
+        Object.values(data).forEach(w => {
+            const added = w.addedAt || 0;
+            if(mode === 'all' || added > lastP) {
+                tbody.innerHTML += `<tr><td>${w.en}</td><td>${w.type}</td><td>${w.cn}</td><td>${w.count}</td></tr>`;
+                count++;
+            }
+        });
+        if(count === 0 && mode === 'new') return alert('上次打印后没有新增错题');
+        document.getElementById('print-title').style.display='block';
+        window.print();
+        document.getElementById('print-title').style.display='none';
+        if(mode === 'new') DB.updateLastPrint(App.user);
+    },
+
+    // Manual Add
+    openAddMistakeModal: () => { document.getElementById('add-manual-modal').style.display='flex'; App.resetManualAdd(); },
+    resetManualAdd: () => {
+        document.getElementById('add-step-1').style.display='block'; document.getElementById('add-step-2').style.display='none';
+        const g = document.getElementById('manual-unit-grid'); g.innerHTML='';
+        for(let i=1;i<=30;i++){ const b=document.createElement('div');b.className='chip';b.innerText=`U ${i}`;b.onclick=()=>App.showWordsManual(i);g.appendChild(b); }
+    },
+    showWordsManual: (u) => {
+        document.getElementById('add-step-1').style.display='none'; document.getElementById('add-step-2').style.display='block';
+        const l = document.getElementById('manual-word-list'); l.innerHTML='';
+        const ex = DB.get()[App.user].mistakes;
+        const w = ALL_WORDS.filter(x => x.u === u && !ex[x.id]);
+        if(!w.length) { l.innerHTML='<div style="color:#999">该单元单词已全部在错题本</div>'; return; }
+        w.forEach(x => {
+            const d=document.createElement('div');d.style.padding='8px';d.style.borderBottom='1px solid #eee';
+            d.innerHTML=`<label style="display:flex;align-items:center;cursor:pointer"><input type="checkbox" class="manual-add-check custom-checkbox" value="${x.id}" style="margin-right:10px"><span><b>${x.en}</b> <span style="font-size:0.8rem;color:#666">${x.cn}</span></span></label>`;
+            l.appendChild(d);
+        });
+    },
+    saveManualWords: () => {
+        document.querySelectorAll('.manual-add-check:checked').forEach(cb=>{ const w=ALL_WORDS.find(x=>x.id===cb.value); if(w) DB.addMistake(App.user, w); });
+        document.getElementById('add-manual-modal').style.display='none'; App.showMistakes();
+    },
+
+    // Review Select
+    toggleReviewSelectAll: () => {
+        const cbs = document.querySelectorAll('.review-correct-check');
+        const allChecked = Array.from(cbs).every(c => c.checked);
+        cbs.forEach(c => c.checked = !allChecked);
+    },
+    deleteSelectedReviewMistakes: () => {
+        const checked = document.querySelectorAll('.review-correct-check:checked');
+        if(checked.length === 0) return alert('未选择任何单词');
+        checked.forEach(cb => DB.removeMistake(App.user, cb.value));
+        App.showMistakes();
+    },
+
+    // History
+    showHistory: () => {
+        App.switchView('view-history'); const box=document.getElementById('history-list'); box.innerHTML='';
+        const data = DB.get()[App.user].history || [];
+        if(!data.length) box.innerHTML='<div style="text-align:center;padding:20px;color:#aaa">暂无记录</div>';
+        data.forEach(r => {
+            const d = new Date(r.time).toLocaleString();
+            const m = r.mode === 'battle' ? '双人对战' : (r.isReview ? '错题复习' : '单人练习');
+            const card = document.createElement('div'); card.className = 'history-card';
+            card.innerHTML = `<div class="history-header" onclick="this.nextElementSibling.classList.toggle('show')"><div><strong>${d}</strong><div style="font-size:0.85rem;color:#666">${m} | 得分: ${r.score}</div></div><span>▼</span></div><div class="history-body">${r.details.map(x=>`<div class="history-row ${x.isCorrect?'correct':'wrong'}"><span>${x.question}</span><span>${x.myAnswer}</span><span>${x.answer}</span></div>`).join('')}</div>`;
+            box.appendChild(card);
+        });
+    }
+};
+
+/* ================= GAME ================= */
+const Game = {
+    queue: [], idx: 0, mode: 'single', qType: 'cn_en', p1: '', p2: '', activePlayer: '', results: {}, phase: 1, isReview: false, reviewModeSetting: 'cn_en',
+
+    init: () => {
+        if(App.units.size === 0 && !Game.isReview) return alert('至少选择一个单元');
+        Game.mode = document.getElementById('mode-select').value;
+        Game.qType = document.getElementById('q-type').value;
+        Game.p1 = App.user;
+        let pool = ALL_WORDS.filter(w => App.units.has(w.u));
+        
+        // 获取顺序设置
+        const orderSelect = document.getElementById('word-order');
+        const order = orderSelect ? orderSelect.value : 'random';
+        
+        if (order === 'random') {
+            pool.sort(() => Math.random() - 0.5);
+        }
+        // sequential保持原顺序
+        
+        Game.queue = pool;
+        if(Game.mode === 'battle') {
+            const op = document.getElementById('opponent-select').value; if(!op) return alert('选择对手');
+            Game.p2 = op; Game.activePlayer = Game.p1; Game.phase = 1; Game.results = {[Game.p1]:{score:0,log:[]},[Game.p2]:{score:0,log:[]}};
+            document.getElementById('battle-info').style.display='block';
+        } else {
+            Game.activePlayer = Game.p1; Game.results = {[Game.p1]:{score:0,log:[]}};
+            document.getElementById('battle-info').style.display='none';
+        }
+        Game.start();
+    },
+    // 复习功能升级：读取下拉菜单值
+    reviewMistakes: () => {
+        const d = DB.get()[App.user].mistakes; const w = Object.values(d);
+        if(!w.length) return alert('错题本为空');
+        
+        const selectedMode = document.getElementById('review-mode-select').value;
+        Game.reviewModeSetting = selectedMode; // 记录复习模式
+        
+        // 如果是原题型，qType暂时设为mixed标记，具体题型在loadQ判断
+        Game.qType = selectedMode === 'original' ? 'mixed' : selectedMode;
+        
+        // 获取错题本顺序设置
+        const orderSelect = document.getElementById('review-order');
+        const order = orderSelect ? orderSelect.value : 'random';
+        
+        if (order === 'random') {
+            w.sort(() => Math.random() - 0.5);
+        }
+        // sequential保持原顺序（按添加时间）
+        
+        Game.queue = w; Game.mode = 'single'; Game.activePlayer = App.user; Game.isReview = true;
+        Game.results = {[App.user]:{score:0,log:[]}};
+        document.getElementById('battle-info').style.display='none';
+        Game.start();
+    },
+    start: () => { Game.idx = 0; App.switchView('view-quiz'); Game.loadQ(); },
+    
+    // 题目加载升级：支持原题型
+    loadQ: () => {
+        const q = Game.queue[Game.idx];
+        
+        // 判定当前题目的题型
+        let currentQType = Game.qType;
+        if (Game.reviewModeSetting === 'original') {
+            // 如果是原记录，优先用 storedType，没有则默认 cn_en
+            currentQType = q.errorType || 'cn_en';
+        }
+
+        document.getElementById('feedback').innerHTML='';
+        document.getElementById('current-player-display').innerText = Game.activePlayer;
+        document.getElementById('progress-bar').style.width = `${(Game.idx/Game.queue.length)*100}%`;
+        
+        const input = document.getElementById('q-input'); input.value=''; input.disabled=false; input.focus();
+        const main = document.getElementById('q-main'); const sub = document.getElementById('q-sub');
+        
+        // 动态渲染
+        if(currentQType === 'cn_en'){ main.innerText=q.cn; sub.innerText=q.type; Game.speak(q.cn,'zh-CN'); }
+        else if(currentQType === 'en_cn'){ main.innerText=q.en; sub.innerText=q.type; Game.speak(q.en,'en-US'); }
+        else { main.innerText='🎧'; sub.innerText=`听音写词 (${q.type})`; Game.speak(q.en,'en-US'); }
+        
+        // 暂存当前题型以便 checkAnswer 使用
+        Game.currentQTypeTemp = currentQType;
+    },
+    
+    checkAnswer: () => {
+        const input = document.getElementById('q-input'); const val = input.value.trim().toLowerCase();
+        const q = Game.queue[Game.idx];
+        const type = Game.currentQTypeTemp || Game.qType; // 使用刚才load的题型
+        
+        let ok = false;
+        if(type === 'en_cn') ok = q.cn.includes(val) && val.length > 0; else ok = val === q.en.toLowerCase();
+        
+        Game.results[Game.activePlayer].log.push({
+            question: type==='cn_en'?q.cn:q.en, 
+            answer: type==='cn_en'?q.en:q.cn, 
+            myAnswer: val, isCorrect: ok, wordObj: q
+        });
+        
+        const fb = document.getElementById('feedback');
+        if(ok) { fb.innerHTML='<span style="color:var(--success)">✅ 正确</span>'; Game.results[Game.activePlayer].score+=10; setTimeout(Game.next, 600); }
+        else { fb.innerHTML=`<span style="color:var(--error)">❌ 正解: ${type==='en_cn'?q.cn:q.en}</span>`; input.classList.add('shake'); setTimeout(()=>{input.classList.remove('shake');Game.next();},1500); }
+        input.disabled = true;
+    },
+    
+    next: () => {
+        Game.idx++;
+        if(Game.idx >= Game.queue.length) {
+            if(Game.mode==='battle' && Game.phase===1) { App.switchView('view-intermission'); document.getElementById('next-player-name').innerText=Game.p2; }
+            else Game.finish();
+        } else Game.loadQ();
+    },
+    startPhase2: () => { Game.phase=2; Game.activePlayer=Game.p2; Game.queue.reverse(); Game.start(); },
+    
+    finish: () => {
+        App.switchView('view-result');
+        const box = document.getElementById('result-details');
+        const revBox = document.getElementById('review-clear-actions');
+        const btnHome = document.getElementById('btn-back-home');
+        
+        const players = Game.mode === 'battle' ? [Game.p1, Game.p2] : [Game.p1];
+        players.forEach(p => {
+            const res = Game.results[p];
+            if(!res) return;
+            // 存历史
+            DB.addHistory(p, {
+                time: Date.now(), mode: Game.mode, isReview: Game.isReview, score: res.score,
+                details: res.log.map(l => ({question:l.question, answer:l.answer, myAnswer:l.myAnswer, isCorrect:l.isCorrect}))
+            });
+            // 存错题 (非复习模式下，只要错了就存，并且传入题型)
+            if(!Game.isReview) {
+                res.log.forEach(l => { 
+                    if(!l.isCorrect) DB.addMistake(p, l.wordObj, Game.qType); // 传入 Game.qType
+                });
+            }
+        });
+
+        if(Game.isReview) {
+            revBox.style.display = 'block'; btnHome.style.display = 'none';
+            document.getElementById('result-title').innerText = "复习完成";
+            const correctLog = Game.results[App.user].log.filter(l => l.isCorrect);
+            box.innerHTML = `<p>共复习 ${Game.queue.length} 词，答对 ${correctLog.length} 词。</p>`;
+            const list = document.getElementById('review-correct-list'); list.innerHTML = '';
+            if(!correctLog.length) list.innerHTML = '<div style="color:#999;text-align:center">本次没有答对单词</div>';
+            else {
+                correctLog.forEach(l => {
+                    const div = document.createElement('div'); div.style.padding = '5px 0'; div.style.borderBottom = '1px solid #eee';
+                    div.innerHTML = `<label style="cursor:pointer;display:flex;align-items:center;"><input type="checkbox" class="review-correct-check custom-checkbox" value="${l.wordObj.id}" style="margin-right:10px"> <b>${l.wordObj.en}</b> <span style="font-size:0.8rem;color:#666;margin-left:5px">${l.wordObj.cn}</span></label>`;
+                    list.appendChild(div);
+                });
+            }
+        } else {
+            revBox.style.display = 'none'; btnHome.style.display = 'inline-block';
+            document.getElementById('result-title').innerText = "挑战结束";
+            if(Game.mode === 'battle') {
+                const s1 = Game.results[Game.p1].score; const s2 = Game.results[Game.p2].score;
+                box.innerHTML = `<h3>${s1 > s2 ? Game.p1+' 获胜!' : (s2 > s1 ? Game.p2+' 获胜!' : '平局')}</h3><p>${Game.p1}: ${s1} | ${Game.p2}: ${s2}</p>`;
+            } else {
+                box.innerHTML = `<h3>得分: ${Game.results[Game.p1].score}</h3><p style="color:var(--text-sub); margin-top:10px;">✅ 答题记录已保存</p><p style="color:var(--text-sub);">📕 错题已加入错题本</p>`;
+            }
+        }
+    },
+
+    speak: (t, l, voiceName) => {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(t);
+        u.lang = l;
+        
+        // 如果指定了音色名称，使用指定音色
+        if (voiceName) {
+            const voices = window.speechSynthesis.getVoices();
+            const voice = voices.find(v => v.name === voiceName);
+            if (voice) u.voice = voice;
+        } else {
+            // 使用保存的设置
+            const saved = JSON.parse(localStorage.getItem('tts_settings') || '{}');
+            const savedVoiceName = l.startsWith('zh') ? saved.zh : saved.en;
+            if (savedVoiceName) {
+                const voices = window.speechSynthesis.getVoices();
+                const voice = voices.find(v => v.name === savedVoiceName);
+                if (voice) u.voice = voice;
+            }
+        }
+        
+        window.speechSynthesis.speak(u);
+    },
+    playAudio: () => { const q = Game.queue[Game.idx]; const t = Game.currentQTypeTemp || Game.qType; t==='cn_en'?Game.speak(q.cn,'zh-CN'):Game.speak(q.en,'en-US'); }
+};
+
+document.addEventListener('keydown', (e) => { if(e.key === 'Enter' && document.getElementById('view-quiz').classList.contains('active')) Game.checkAnswer(); });
+App.init();
+</script>
+</body>
+</html>
