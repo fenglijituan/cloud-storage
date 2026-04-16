@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="沈阳市浑南区第八小学官方网站 - 善水文化，全国品质课程实验学校，篮球特色校">
+    <meta name="keywords" content="浑南八小,浑南区第八小学,沈阳小学,善水文化,沁善如水,篮球特色校">
+    <title>沈阳市浑南区第八小学 | 善水润心·和谐校园</title>
+    <style>
+        /* ----- 全局重置与变量 ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* 浅色模式变量 */
+            --primary: #0f5b7a;
+            --primary-light: #1b8bb3;
+            --primary-dark: #0a3b4f;
+            --accent: #2aa1c0;
+            --bg-soft: #f4fafd;
+            --card-bg: #ffffff;
+            --text-dark: #1e2f3d;
+            --text-muted: #6b8a9a;
+            --border-color: rgba(31, 159, 207, 0.1);
+            --shadow-card: 0 8px 24px rgba(0, 30, 50, 0.06);
+            --shadow-hover: 0 16px 32px -8px rgba(15, 91, 122, 0.15);
+            --glow-line: transparent; /* 浅色模式无荧光 */
+            --nav-bg: rgba(15, 91, 122, 0.85);
+            --border-radius: 24px;
+        }
+
+        /* 深色/科技风模式变量 */
+        [data-theme="dark"] {
+            --primary: #0a192f;
+            --primary-light: #172a45;
+            --primary-dark: #020c1b;
+            --accent: #00d2ff;
+            --bg-soft: #050b14;
+            --card-bg: #0b1528;
+            --text-dark: #ccd6f6;
+            --text-muted: #8892b0;
+            --border-color: rgba(0, 210, 255, 0.2);
+            --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 16px 32px -8px rgba(0, 210, 255, 0.2);
+            --glow-line: 0 0 15px rgba(0, 210, 255, 0.5), inset 0 0 10px rgba(0, 210, 255, 0.2); /* 蓝色荧光线条 */
+            --nav-bg: rgba(10, 25, 47, 0.85);
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-soft);
+            scroll-behavior: smooth;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* 顶部栏 */
+        .top-bar {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.9);
+            padding: 8px 0;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: background-color 0.4s ease;
+        }
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .top-right {
+            display: flex;
+            align-items: center;
+        }
+        .top-right a {
+            color: white;
+            text-decoration: none;
+            margin-left: 28px;
+            font-weight: 500;
+            transition: opacity 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .top-right a:hover {
+            opacity: 0.8;
+            color: var(--accent);
+        }
+
+        /* 头部 */
+        .header {
+            background: var(--card-bg);
+            padding: 20px 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+            transition: background-color 0.4s ease;
+        }
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .logo-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(145deg, #0e5a7a, #1b7ca0);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 14px rgba(11, 68, 92, 0.15);
+        }
+        .logo-icon img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+        .school-name h1 {
+            font-size: 28px;
+            color: var(--text-dark);
+            font-weight: 800;
+        }
+        .school-name p {
+            color: var(--text-muted);
+        }
+        .school-motto {
+            border-left: 4px solid var(--accent);
+            padding-left: 24px;
+            color: var(--text-dark);
+        }
+
+        /* 导航 (毛玻璃效果) */
+        .nav {
+            background: var(--nav-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transition: background-color 0.4s ease;
+        }
+        .nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        .nav-menu li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 16px 24px;
+            font-weight: 600;
+            font-size: 15px;
+            border-bottom: 3px solid transparent;
+            transition: 0.3s;
+        }
+        .nav-menu li a:hover,
+        .nav-menu li a.active {
+            background: rgba(255,255,255,0.1);
+            border-bottom-color: var(--accent);
+            color: var(--accent);
+        }
+        .nav-search {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 40px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .nav-search input {
+            border: none;
+            padding: 10px 20px;
+            width: 220px;
+            outline: none;
+            background: transparent;
+            color: var(--text-dark);
+        }
+        .nav-search button {
+            background: var(--primary-light);
+            border: none;
+            color: white;
+            padding: 0 24px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .nav-search button:hover {
+            background: var(--accent);
+        }
+
+        /* 动态横幅 */
+        .hero-banner {
+            background: linear-gradient(105deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 210, 255, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .hero-banner h2 {
+            font-size: 48px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 通用区块 */
+        .section {
+            padding: 60px 0;
+        }
+        .section-title {
+            font-size: 32px;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 48px;
+            position: relative;
+            font-weight: 700;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        /* 卡片通用类 */
+        .quick-grid, .feature-grid, .gallery-grid, .news-row {
+            display: grid;
+            gap: 28px;
+        }
+        .quick-grid { grid-template-columns: repeat(4,1fr); }
+        .feature-grid { grid-template-columns: repeat(3,1fr); }
+        .gallery-grid { grid-template-columns: repeat(4,1fr); }
+        .news-row { grid-template-columns: 1fr 1fr; }
+
+        .quick-card, .feature-card, .gallery-card, .news-card, .contact-grid {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-card);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid var(--border-color);
+        }
+        
+        /* 荧光悬停效果 */
+        .quick-card:hover, .feature-card:hover, .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover), var(--glow-line);
+            border-color: var(--accent);
+        }
+
+        .quick-card { padding: 32px 16px; text-align: center; text-decoration: none; color: var(--text-dark); }
+        .quick-card .icon { font-size: 36px; margin-bottom: 12px; }
+        .feature-card { padding: 20px 20px 28px; text-align: center; }
+        .feature-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            background: var(--primary-light);
+        }
+        .gallery-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 24px 24px 0 0;
+            background: var(--primary-light);
+        }
+        .gallery-card .caption { padding: 16px; text-align: center; font-weight: bold; }
+        
+        .news-header {
+            background: var(--primary);
+            color: white;
+            padding: 18px 24px;
+            font-size: 20px;
+            font-weight: 600;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .news-list-item {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-dark);
+        }
+        .news-list-item:hover {
+            background: var(--border-color);
+            padding-left: 32px; /* 悬停交互细节 */
+        }
+        .news-date { color: var(--text-muted); min-width: 85px; }
+
+        /* 公众号信息卡片样式 */
+        .wechat-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .wechat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover), var(--glow-line);
+            border-color: var(--accent);
+        }
+        .wechat-info {
+            display: flex;
+            align-items: center;
+            padding: 24px;
+            gap: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .wechat-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .wechat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .wechat-details h4 {
+            color: var(--text-dark);
+            margin-bottom: 4px;
+            font-size: 18px;
+        }
+        .wechat-details p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .wechat-articles {
+            padding: 0;
+        }
+        .article-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+        .article-item:hover {
+            background: var(--border-color);
+            padding-left: 32px;
+        }
+        .article-item:last-child {
+            border-bottom: none;
+        }
+        .article-cover {
+            width: 80px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 16px;
+            flex-shrink: 0;
+            background: var(--bg-soft);
+        }
+        .article-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .article-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .article-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 15px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .article-date {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .loading-articles {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: var(--text-muted);
+            gap: 12px;
+        }
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 数据面板 */
+        .stats-panel {
+            display: flex;
+            justify-content: space-around;
+            background: var(--card-bg);
+            border-radius: 40px;
+            padding: 36px 20px;
+            margin: 40px 0;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color);
+        }
+        .stat-number { font-size: 42px; font-weight: 800; color: var(--accent); }
+
+        /* 视频卡片 */
+        .video-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-color);
+        }
+        .video-card video {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            background: #000;
+        }
+
+        /* 联系网格 */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 24px;
+            padding: 40px;
+            margin-top: 20px;
+        }
+        .contact-item { display: flex; gap: 18px; align-items: center; color: var(--text-dark); }
+
+        /* 开学典礼专题 */
+        .opening-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 2fr;
+            gap: 28px;
+            margin-bottom: 60px;
+        }
+        .opening-photos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .opening-photo-item {
+            background: var(--card-bg);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        .opening-photo-item img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+        }
+        .opening-photo-item:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-hover), var(--glow-line);
+            border-color: var(--accent);
+            z-index: 10;
+        }
+
+        /* 底部 */
+        .footer {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 48px 0 24px;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 40px; }
+        .footer h3, .footer h4 { color: white; margin-bottom: 16px; }
+
+        /* 侧滑面板 */
+        .auth-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 360px;
+            height: 100vh;
+            background: var(--card-bg);
+            color: var(--text-dark);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 32px 24px;
+            border-radius: 32px 0 0 32px;
+            border-left: 1px solid var(--border-color);
+        }
+        .auth-panel.active { right: 0; }
+        .auth-panel input {
+            background: var(--bg-soft);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+            outline: none;
+        }
+        .auth-panel input:focus { border-color: var(--accent); box-shadow: var(--glow-line); }
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+        }
+        .auth-overlay.active { opacity: 1; visibility: visible; }
+
+        /* 轻提示 */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 60px;
+            z-index: 1001;
+            opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 210, 255, 0.3);
+        }
+        .toast-message.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+
+        /* 返回顶部 */
+        .go-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            border: none;
+            font-size: 24px;
+            box-shadow: 0 6px 16px rgba(0, 210, 255, 0.3);
+            z-index: 99;
+        }
+        .go-top:hover { transform: translateY(-3px); box-shadow: var(--glow-line); }
+        .go-top.show { opacity: 1; visibility: visible; }
+
+        /* 管理员面板样式 */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -600px;
+            width: 560px;
+            height: 100vh;
+            background: var(--card-bg);
+            color: var(--text-dark);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+            z-index: 1001;
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border-radius: 32px 0 0 32px;
+            border-left: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .admin-panel.active { right: 0; }
+        
+        .admin-header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h3 { margin: 0; }
+        .admin-close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-close-btn:hover { background: rgba(255,255,255,0.2); }
+        
+        .admin-tabs {
+            display: flex;
+            background: var(--bg-soft);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .admin-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 12px 16px;
+            cursor: pointer;
+            color: var(--text-muted);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        .admin-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            background: var(--card-bg);
+        }
+        .admin-tab:hover { background: var(--border-color); }
+        
+        .admin-content {
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .admin-tab-content { display: none; }
+        .admin-tab-content.active { display: block; }
+        
+        .admin-section {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--bg-soft);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .admin-section h4 { margin: 0 0 12px 0; color: var(--text-dark); }
+        
+        .admin-input, .admin-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            outline: none;
+        }
+        .admin-input:focus, .admin-textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.2);
+        }
+        
+        .admin-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .admin-btn:hover { background: var(--primary-light); transform: translateY(-1px); }
+        .admin-btn.danger { background: #e74c3c; }
+        .admin-btn.danger:hover { background: #c0392b; }
+        
+        .admin-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+        }
+        .admin-list-item {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-list-item:last-child { border-bottom: none; }
+        
+        .admin-switch {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+        .admin-switch input { display: none; }
+        .slider {
+            width: 40px;
+            height: 20px;
+            background: var(--text-muted);
+            border-radius: 20px;
+            position: relative;
+            margin-right: 12px;
+            transition: background 0.3s;
+        }
+        .slider:before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+        .admin-switch input:checked + .slider {
+            background: var(--accent);
+        }
+        .admin-switch input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .quick-grid, .feature-grid, .gallery-grid, .news-row, .contact-grid, .footer-grid, .opening-grid {
+                grid-template-columns: 1fr;
+            }
+            .opening-photos { grid-template-columns: repeat(2,1fr); }
+            .nav-search { display: none; } /* 移动端隐藏搜索栏腾出空间 */
+        }
+        @media (max-width: 500px) {
+            .opening-photos { grid-template-columns: 1fr; }
+            .stats-panel { flex-direction: column; align-items: center; gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div class="container">
+        <div class="top-left">
+            <span>📍 沈阳市浑南区临波路30号</span>
+            <span style="margin-left: 15px;">🏀 全国篮球特色校 | 🌟 全国品质课程实验学校</span>
+        </div>
+        <div class="top-right">
+            <a href="#" id="themeToggle">🌓 切换科技模式</a>
+            <a href="#" id="loginBtn">登录</a>
+            <a href="#" id="registerBtn">注册</a>
+        </div>
+    </div>
+</div>
+
+<header class="header">
+    <div class="container">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <img src="https://raw.githubusercontent.com/fenglijituan/cloud-storage/main/勿删网页/0.png" alt="浑南八小校标" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <span style="display:none; width:100%; height:100%; align-items:center; justify-content:center; color:white; font-size:28px; font-weight:bold;">八小</span>
+            </div>
+            <div class="school-name">
+                <h1>沈阳市浑南区第八小学</h1>
+                <p>沁善如水 · 博学笃行</p>
+            </div>
+        </div>
+        <div class="school-motto">
+            <div class="motto-main" style="font-weight: 600;">海纳百川 和谐毓秀</div>
+            <div class="motto-sub">童心师爱 润物无声</div>
+        </div>
+    </div>
+</header>
+
+<nav class="nav" id="mainNav">
+    <div class="container">
+        <ul class="nav-menu">
+            <li><a href="#home" class="active">首页</a></li>
+            <li><a href="#about">学校概况</a></li>
+            <li><a href="#news">新闻动态</a></li>
+            <li><a href="#teachers">师资力量</a></li>
+            <li><a href="#course">教学教研</a></li>
+            <li><a href="#admission">招生信息</a></li>
+            <li><a href="#culture">校园文化</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+        <div class="nav-search">
+            <input type="text" id="searchInput" placeholder="搜索新闻或通知...">
+            <button id="searchBtn">搜索</button>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-banner" id="home">
+    <div class="container">
+        <h2>以水为魂 · 以文化人</h2>
+        <p style="font-size:20px; margin-top:16px; font-weight: 300;">打造善水文化 建设全国品质课程标杆校</p>
+        <div style="margin-top:32px; display: inline-block; border: 1px solid rgba(255,255,255,0.3); padding: 8px 24px; border-radius: 30px; backdrop-filter: blur(5px);">
+            全国青少年校园篮球特色学校 | 全国健康学校建设单位
+        </div>
+    </div>
+</section>
+
+<main>
+    <div class="container">
+        <div class="section">
+            <div class="section-title">快速入口</div>
+            <div class="quick-grid">
+                <a href="#about" class="quick-card"><div class="icon">🏫</div><h3>学校简介</h3><p style="margin-top:8px; color:var(--text-muted);">发展历程与办学理念</p></a>
+                <a href="#honor" class="quick-card"><div class="icon">🏆</div><h3>荣誉资质</h3><p style="margin-top:8px; color:var(--text-muted);">全国品质课程/篮球特色</p></a>
+                <a href="#admission" class="quick-card"><div class="icon">📚</div><h3>招生信息</h3><p style="margin-top:8px; color:var(--text-muted);">2026年秋季预报名</p></a>
+                <a href="#contact" class="quick-card"><div class="icon">📞</div><h3>联系我们</h3><p style="margin-top:8px; color:var(--text-muted);">电话/地址/校长信箱</p></a>
+            </div>
+        </div>
+
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 40px; padding: 36px; text-align: center; margin: 20px 0; box-shadow: var(--shadow-card); transition: 0.3s;">
+            <div style="font-size: 40px; font-family: KaiTi; color: var(--text-dark); font-weight: bold;">沁善如水 · 博学笃行</div>
+            <div style="display: flex; justify-content: center; gap: 32px; margin-top: 24px; flex-wrap: wrap; color: var(--text-muted);">
+                <span><strong style="color:var(--accent);">校风：</strong>尚善 · 求真 · 创新 · 和谐</span>
+                <span><strong style="color:var(--accent);">教风：</strong>爱生 · 敬业 · 博学 · 善导</span>
+                <span><strong style="color:var(--accent);">学风：</strong>乐学 · 善思 · 自主 · 合作</span>
+            </div>
+        </div>
+
+        <div class="stats-panel" id="statsPanel">
+            <div class="stat-item" style="text-align: center;"><div class="stat-number"><span class="countup" data-target="2017">2017</span></div><div style="color:var(--text-muted);">建校年份</div></div>
+            <div class="stat-item" style="text-align: center;"><div class="stat-number"><span class="countup" data-target="2.03">2.03</span><span style="font-size:20px;">万</span></div><div style="color:var(--text-muted);">占地面积(㎡)</div></div>
+            <div class="stat-item" style="text-align: center;"><div class="stat-number"><span class="countup" data-target="2600">2600</span></div><div style="color:var(--text-muted);">在校学生</div></div>
+            <div class="stat-item" style="text-align: center;"><div class="stat-number"><span class="countup" data-target="64">64</span></div><div style="color:var(--text-muted);">教学班</div></div>
+            <div class="stat-item" style="text-align: center;"><div class="stat-number"><span class="countup" data-target="300">300</span><span style="font-size:20px;">+</span></div><div style="color:var(--text-muted);">集团教师</div></div>
+        </div>
+
+        <div id="news" class="section-title" style="scroll-margin-top: 100px;">新闻动态</div>
+        <div class="news-row">
+            <div class="news-card">
+                <div class="news-header">📰 学校新闻 <a href="#" id="moreSchoolNews" style="color:#e2f1f8; text-decoration: none; font-size: 14px;">更多 →</a></div>
+                <div id="schoolNewsList"></div>
+            </div>
+            <div class="news-card">
+                <div class="news-header">📢 通知公告 <a href="#" id="moreNotices" style="color:#e2f1f8; text-decoration: none; font-size: 14px;">更多 →</a></div>
+                <div id="noticeList"></div>
+            </div>
+        </div>
+        
+        <!-- 公众号信息展示区域 -->
+        <div class="wechat-card" style="margin-top: 40px;">
+            <div class="news-header">📱 官方公众号 <span id="wechatUpdateTime" style="color:#e2f1f8; font-size: 12px; margin-left: 10px;"></span></div>
+            <div class="wechat-info">
+                <div class="wechat-avatar">
+                    <img id="wechatAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' fill='%23172a45'/%3E%3Ctext x='50%25' y='50%25' fill='%238892b0' dominant-baseline='middle' text-anchor='middle'%3E八小%3C/text%3E%3C/svg%3E" alt="浑南八小公众号">
+                </div>
+                <div class="wechat-details">
+                    <h4 id="wechatName">沈阳市浑南区第八小学</h4>
+                    <p id="wechatDesc">沁善如水 · 博学笃行 - 官方信息发布平台</p>
+                </div>
+            </div>
+            <div id="wechatArticles" class="wechat-articles">
+                <div class="loading-articles">
+                    <div class="loading-spinner"></div>
+                    <span>正在获取最新文章...</span>
+                </div>
+            </div>
+        </div>
+        <div id="searchResultBar" style="display:none; background:var(--card-bg); border: 1px solid var(--accent); padding:12px 24px; border-radius:40px; margin:24px 0; box-shadow: var(--glow-line);"></div>
+
+        <div class="section-title" style="margin-top: 80px;">🎉 开学典礼 · 精彩回顾 <span style="font-size: 14px; margin-left: 15px; background: var(--accent); padding: 4px 16px; border-radius: 30px; color: white; vertical-align: middle;">TOP 推荐</span></div>
+        <div class="opening-grid">
+            <div class="video-card">
+                <video controls poster="https://raw.githubusercontent.com/fenglijituan/cloud-storage/main/勿删网页/640.webp">
+                    <source src="https://mpvideo.qpic.cn/0bc3imccgaaeleafug5bxruviq6denbqiiya.f10002.mp4?dis_k=8efc24dbf04db757deaff4568a41f5b4&dis_t=1776337165&play_scene=10120&auth_info=U7+crYwqP1UemLCRz3R6dEs3TFctZkVTRSl2Y1w6HBRqWXU+P0scbz4aYW9tTGg3SjkdCnFpDmk8fG84BmxODm5Dfw==&auth_key=5738ffd8153bd88cad6cb5d401d431ad&vid=wxv_4410056501227290628&format_id=10002&support_redirect=0&mmversion=false" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+                <div style="padding: 16px; text-align: center; font-weight: 600; color: var(--text-dark);">🎬 浑南八校2026年下学期开学典礼</div>
+            </div>
+            <div class="opening-photos" id="openingPhotosGrid"></div>
+        </div>
+
+        <div id="honor" class="section-title" style="scroll-margin-top: 100px;">学校特色与荣誉</div>
+        <div class="feature-grid">
+            <div class="feature-card"><img class="feature-img" src="https://ln.cri.cn/2024-04-28/9c5b2d9d-457e-4750-8941-f66e453b9d65.jpg" alt="篮球操"><h3>🏀 全国篮球特色校</h3><p style="color:var(--text-muted); margin-top:8px;">以球健体，校本篮球课程，校队蝉联区冠军</p></div>
+            <div class="feature-card"><img class="feature-img" src="https://ln.cri.cn/2024-09-04/4851806b-2a2e-4b70-9621-0cba187afe15.jpg" alt="开学典礼"><h3>🌟 全国健康学校</h3><p style="color:var(--text-muted); margin-top:8px;">健康第一，健康教育特色示范校，教育部认定</p></div>
+            <div class="feature-card"><img class="feature-img" src="https://ln.cri.cn/2024-04-28/1e335404-059e-488d-bdfb-2b2a775a4121.jpg" alt="善水课程"><h3>💧 善水文化课程</h3><p style="color:var(--text-muted); margin-top:8px;">“知水·涟漪”课程体系，省级特色精品课程</p></div>
+        </div>
+
+        <div id="culture" class="section-title" style="scroll-margin-top: 100px;">校园风采</div>
+        <div class="gallery-grid">
+            <div class="gallery-card"><img src="https://ts1.tc.mm.bing.net/th/id/OIP-C.6em-ZccdGZNoZh8yMWGf0wHaJW?cb=thfc1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="校门"><div class="caption">现代化校门</div></div>
+            <div class="gallery-card"><img src="https://pic.meipian.cn/2025/9/11/user/62688944/62688944-1536646810-1.jpg?v=7.0.1" alt="教室"><div class="caption">智慧教室</div></div>
+            <div class="gallery-card"><img src="https://pic.meipian.cn/2025/9/11/user/62688944/62688944-1536646813-4.jpg?v=7.0.1" alt="操场"><div class="caption">标准运动场</div></div>
+            <div class="gallery-card"><img src="https://pic.meipian.cn/2025/9/11/user/62688944/62688944-1536646814-6.jpg?v=7.0.1" alt="走廊"><div class="caption">善水文化长廊</div></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin: 60px 0;">
+            <div id="about" style="scroll-margin-top: 100px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 32px; padding: 40px; box-shadow: var(--shadow-card);">
+                <h3 style="color: var(--accent); margin-bottom: 16px;">🏫 学校概况</h3>
+                <p style="color: var(--text-muted);">沈阳市浑南区第八小学建于2017年，占地2.03万㎡。以“善水文化”为核心，全国品质课程实验学校。</p>
+            </div>
+            <div id="teachers" style="scroll-margin-top: 100px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 32px; padding: 40px; box-shadow: var(--shadow-card);">
+                <h3 style="color: var(--accent); margin-bottom: 16px;">👨‍🏫 师资与教研</h3>
+                <p style="color: var(--text-muted);">集团教师300+，骨干教师占比高。推行“知水·涟漪”课程体系，是沈阳市课改先进校。</p>
+            </div>
+            <div id="admission" style="scroll-margin-top: 100px; background: var(--card-bg); border: 1px solid var(--accent); border-radius: 32px; padding: 40px; box-shadow: var(--glow-line);">
+                <h3 style="color: var(--accent); margin-bottom: 16px;">📋 招生信息</h3>
+                <p style="color: var(--text-muted);">学区范围：临波路周边。2026年秋季预报名已开启，请致电024-83781699咨询。</p>
+            </div>
+        </div>
+
+        <div id="contact" class="section-title" style="scroll-margin-top: 100px;">联系方式</div>
+        <div class="contact-grid">
+            <div class="contact-item"><span style="font-size: 28px;">📍</span><div><strong>学校地址</strong><br><span style="color:var(--text-muted);">浑南区临波路30号</span></div></div>
+            <div class="contact-item"><span style="font-size: 28px;">📞</span><div><strong>联系电话</strong><br><span style="color:var(--text-muted);">024-83781699</span></div></div>
+            <div class="contact-item"><span style="font-size: 28px;">✉️</span><div><strong>电子邮箱</strong><br><span style="color:var(--text-muted);">491193953@qq.com</span></div></div>
+            <div class="contact-item"><span style="font-size: 28px;">🚌</span><div><strong>公共交通</strong><br><span style="color:var(--text-muted);">地铁9号线彩霞街站</span></div></div>
+        </div>
+        
+        <!-- 联系管理员表单 -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 32px; padding: 40px; margin-top: 40px; box-shadow: var(--shadow-card);">
+            <h3 style="color: var(--accent); margin-bottom: 24px; text-align: center;">💬 联系管理员</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <input type="text" id="contactName" placeholder="您的姓名" style="width:100%; padding:12px 16px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-soft); color:var(--text-dark); outline:none; margin-bottom:12px;">
+                    <input type="tel" id="contactPhone" placeholder="联系电话" style="width:100%; padding:12px 16px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-soft); color:var(--text-dark); outline:none; margin-bottom:12px;">
+                    <input type="email" id="contactEmail" placeholder="电子邮箱" style="width:100%; padding:12px 16px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-soft); color:var(--text-dark); outline:none;">
+                </div>
+                <div>
+                    <textarea id="contactMessage" placeholder="请输入您想对管理员说的话..." style="width:100%; height:120px; padding:12px 16px; border:1px solid var(--border-color); border-radius:8px; background:var(--bg-soft); color:var(--text-dark); outline:none; resize:vertical;"></textarea>
+                    <button onclick="submitContactMessage()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:8px; margin-top:12px; cursor:pointer; font-weight:bold;">发送消息</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div><h3>沈阳市浑南区第八小学</h3><p>沁善如水，博学笃行。全国品质课程实验学校。</p></div>
+            <div><h4>快速链接</h4><ul style="list-style:none; line-height: 2;"><li><a href="#admission" style="color:var(--accent); text-decoration: none;">招生报名通道</a></li><li><a href="#home" style="color:#8892b0; text-decoration: none;">返回首页</a></li></ul></div>
+            <div><h4>联系方式</h4><p>📞 024-83781699</p><p style="margin-top: 8px;">📍 浑南区临波路30号</p></div>
+        </div>
+        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); color: #8892b0;">© 2026 沈阳市浑南区第八小学 版权所有</div>
+    </div>
+</footer>
+
+<div class="auth-overlay" id="authOverlay"></div>
+<div class="auth-panel" id="authPanel">
+    <div id="loginForm">
+        <h3 style="margin-bottom: 24px; color: var(--accent);">🔐 智慧校园系统</h3>
+        <input type="text" id="loginUsername" placeholder="用户名/手机号" style="width:100%; padding:14px 20px; border-radius:40px; margin-bottom:16px;">
+        <input type="password" id="loginPassword" placeholder="密码" style="width:100%; padding:14px 20px; border-radius:40px; margin-bottom:24px;">
+        <button id="loginBtnPanel" style="background: var(--accent); color:white; width:100%; padding:14px; border:none; border-radius:40px; font-weight: bold; cursor: pointer; box-shadow: var(--glow-line);">立即登录</button>
+        <div style="text-align: center; margin-top: 16px;">
+            <a href="#" id="switchToRegister" style="color: var(--accent); text-decoration: none; font-size: 14px;">没有账号？立即注册</a>
+        </div>
+        <button id="closeAuthPanel" style="margin-top:16px; width:100%; padding:14px; border-radius:40px; border:1px solid var(--border-color); background:transparent; color: var(--text-dark); cursor: pointer;">关闭面板</button>
+    </div>
+    
+    <div id="registerForm" style="display: none;">
+        <h3 style="margin-bottom: 24px; color: var(--accent);">📝 用户注册</h3>
+        <input type="text" id="regUsername" placeholder="用户名" style="width:100%; padding:14px 20px; border-radius:40px; margin-bottom:16px;">
+        <input type="password" id="regPassword" placeholder="密码" style="width:100%; padding:14px 20px; border-radius:40px; margin-bottom:16px;">
+        <input type="tel" id="regPhone" placeholder="手机号码" style="width:100%; padding:14px 20px; border-radius:40px; margin-bottom:24px;">
+        <button id="registerBtnPanel" style="background: var(--accent); color:white; width:100%; padding:14px; border:none; border-radius:40px; font-weight: bold; cursor: pointer; box-shadow: var(--glow-line);">立即注册</button>
+        <div style="text-align: center; margin-top: 16px;">
+            <a href="#" id="switchToLogin" style="color: var(--accent); text-decoration: none; font-size: 14px;">已有账号？立即登录</a>
+        </div>
+        <button id="closeAuthPanelReg" style="margin-top:16px; width:100%; padding:14px; border-radius:40px; border:1px solid var(--border-color); background:transparent; color: var(--text-dark); cursor: pointer;">关闭面板</button>
+    </div>
+</div>
+
+<!-- 管理员后台管理面板 -->
+<div class="admin-panel" id="adminPanel">
+    <div class="admin-header">
+        <h3>⚙️ 管理员后台</h3>
+        <button id="closeAdminPanel" class="admin-close-btn">×</button>
+    </div>
+    
+    <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="content">内容管理</button>
+        <button class="admin-tab" data-tab="articles">内部文章</button>
+        <button class="admin-tab" data-tab="notifications">通知系统</button>
+        <button class="admin-tab" data-tab="users">用户管理</button>
+        <button class="admin-tab" data-tab="analytics">数据可视化</button>
+        <button class="admin-tab" data-tab="settings">系统设置</button>
+    </div>
+    
+    <div class="admin-content">
+        <!-- 内容管理标签页 -->
+        <div id="tab-content" class="admin-tab-content active">
+            <h4>📰 新闻内容管理</h4>
+            <div class="admin-section">
+                <button class="admin-btn" onclick="addNewsItem()">添加新闻</button>
+                <button class="admin-btn" onclick="editNewsItem()">编辑新闻</button>
+                <button class="admin-btn danger" onclick="deleteNewsItem()">删除新闻</button>
+            </div>
+            
+            <h4>🎬 视频内容管理</h4>
+            <div class="admin-section">
+                <input type="text" id="videoUrl" placeholder="视频URL" class="admin-input">
+                <input type="text" id="videoTitle" placeholder="视频标题" class="admin-input">
+                <button class="admin-btn" onclick="updateVideo()">更新视频</button>
+            </div>
+            
+            <h4>📱 公众号文章管理</h4>
+            <div class="admin-section">
+                <button class="admin-btn" onclick="refreshWechatArticles()">刷新公众号文章</button>
+                <button class="admin-btn danger" onclick="deleteWechatArticle()">删除文章</button>
+            </div>
+        </div>
+        
+        <!-- 内部文章标签页 -->
+        <div id="tab-articles" class="admin-tab-content">
+            <h4>📝 创建内部文章</h4>
+            <div class="admin-section">
+                <input type="text" id="articleTitle" placeholder="文章标题" class="admin-input">
+                <textarea id="articleContent" placeholder="文章内容（支持Markdown）" class="admin-textarea" style="height: 120px;"></textarea>
+                <select id="articleCategory" class="admin-input">
+                    <option value="news">新闻动态</option>
+                    <option value="notice">通知公告</option>
+                    <option value="internal">内部文件</option>
+                    <option value="guide">使用指南</option>
+                </select>
+                <div style="display: flex; gap: 8px;">
+                    <button class="admin-btn" onclick="saveArticle()">保存文章</button>
+                    <button class="admin-btn" onclick="previewArticle()">预览文章</button>
+                    <button class="admin-btn danger" onclick="clearArticleForm()">清空表单</button>
+                </div>
+            </div>
+            
+            <h4>📚 文章管理</h4>
+            <div class="admin-section">
+                <input type="text" id="searchArticles" placeholder="搜索文章标题..." class="admin-input" oninput="filterArticles()">
+                <div id="articleList" class="admin-list" style="max-height: 300px;"></div>
+            </div>
+        </div>
+        
+        <!-- 通知系统标签页 -->
+        <div id="tab-notifications" class="admin-tab-content">
+            <h4>📢 发送通知</h4>
+            <div class="admin-section">
+                <select id="notificationTarget" class="admin-input">
+                    <option value="all">所有用户</option>
+                    <option value="specific">特定用户</option>
+                    <option value="admin">仅管理员</option>
+                </select>
+                <input type="text" id="notificationTitle" placeholder="通知标题" class="admin-input">
+                <textarea id="notificationContent" placeholder="通知内容" class="admin-textarea"></textarea>
+                <div style="display: flex; gap: 8px;">
+                    <button class="admin-btn" onclick="sendNotification()">发送通知</button>
+                    <button class="admin-btn" onclick="scheduleNotification()">定时发送</button>
+                </div>
+            </div>
+            
+            <h4>📋 通知管理</h4>
+            <div class="admin-section">
+                <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                    <button class="admin-btn" onclick="loadNotifications()">刷新列表</button>
+                    <button class="admin-btn danger" onclick="clearAllNotifications()">清空所有</button>
+                </div>
+                <div id="notificationList" class="admin-list" style="max-height: 300px;"></div>
+            </div>
+        </div>
+        
+        <!-- 数据可视化标签页 -->
+        <div id="tab-analytics" class="admin-tab-content">
+            <h4>📊 网站数据统计</h4>
+            <div class="admin-section">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 20px;">
+                    <div style="text-align: center; padding: 16px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--accent);" id="totalUsers">0</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">注册用户</div>
+                    </div>
+                    <div style="text-align: center; padding: 16px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--accent);" id="totalArticles">0</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">内部文章</div>
+                    </div>
+                    <div style="text-align: center; padding: 16px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--border-color);">
+                        <div style="font-size: 24px; font-weight: bold; color: var(--accent);" id="totalNotifications">0</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">通知数量</div>
+                    </div>
+                </div>
+                
+                <h5>📈 用户活跃度</h5>
+                <div id="userActivityChart" style="height: 200px; background: var(--bg-soft); border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                    <canvas id="activityChart"></canvas>
+                </div>
+                
+                <h5>📅 最近7天数据</h5>
+                <div id="recentData" style="background: var(--bg-soft); border-radius: 8px; padding: 16px;">
+                    <div id="recentStats"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 用户管理标签页 -->
+        <div id="tab-users" class="admin-tab-content">
+            <h4>👥 用户列表</h4>
+            <div id="userList" class="admin-list"></div>
+            
+            <h4>💬 联系管理员消息</h4>
+            <div id="contactMessages" class="admin-list"></div>
+        </div>
+        
+        <!-- 系统设置标签页 -->
+        <div id="tab-settings" class="admin-tab-content">
+            <h4>⚡ 功能开关</h4>
+            <div class="admin-section">
+                <label class="admin-switch">
+                    <input type="checkbox" id="toggleWechat" checked>
+                    <span class="slider"></span>
+                    公众号功能
+                </label>
+                <label class="admin-switch">
+                    <input type="checkbox" id="toggleVideo" checked>
+                    <span class="slider"></span>
+                    视频展示
+                </label>
+                <label class="admin-switch">
+                    <input type="checkbox" id="toggleGallery" checked>
+                    <span class="slider"></span>
+                    图片展示
+                </label>
+            </div>
+            
+            <h4>🔧 高级设置</h4>
+            <div class="admin-section">
+                <button class="admin-btn" onclick="exportData()">导出数据</button>
+                <button class="admin-btn" onclick="importData()">导入数据</button>
+                <button class="admin-btn danger" onclick="clearCache()">清除缓存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-message" id="liveToast"></div>
+<button class="go-top" id="goTop">↑</button>
+
+<script>
+    (function(){
+        // 深色模式切换逻辑
+        const themeToggle = document.getElementById('themeToggle');
+        let isDarkMode = false;
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            isDarkMode = !isDarkMode;
+            if(isDarkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '☀️ 切换浅色模式';
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggle.innerHTML = '🌓 切换科技模式';
+            }
+        });
+
+        // 数据渲染
+        function getSchoolNews() {
+            const savedNews = localStorage.getItem('schoolNews');
+            if (savedNews) {
+                return JSON.parse(savedNews);
+            }
+            // 默认数据
+            return [
+                { date: "2026-04-10", title: "浑南八小善水文化主题艺术节隆重举行", tag: "热点" },
+                { date: "2026-04-05", title: "我校篮球队勇夺区小学生篮球联赛冠军", tag: "NEW" },
+                { date: "2026-03-28", title: "全国健康学校建设专家组莅临调研", tag: "" },
+                { date: "2026-03-20", title: "善水课程体系获评辽宁省精品校本课程", tag: "荣誉" }
+            ];
+        }
+        
+        function getNotices() {
+            const savedNotices = localStorage.getItem('adminNotifications');
+            if (savedNotices) {
+                const notifications = JSON.parse(savedNotices);
+                return notifications.filter(n => n.target === 'all').map(n => ({
+                    date: n.timestamp.split('T')[0],
+                    title: n.title,
+                    tag: "通知"
+                }));
+            }
+            // 默认数据
+            return [
+                { date: "2026-04-12", title: "2026年五一劳动节放假安排通知", tag: "重要" },
+                { date: "2026-04-08", title: "一年级新生预报名开启 (线上登记)", tag: "NEW" },
+                { date: "2026-04-01", title: "校园安全教育月活动倡议书", tag: "" },
+                { date: "2026-03-25", title: "图书馆新增科普读物及开放时间", tag: "" }
+            ];
+        }
+
+        function renderNews(filter='') {
+            const f = filter.toLowerCase();
+            const schoolNews = getSchoolNews();
+            const notices = getNotices();
+            
+            const newsF = f ? schoolNews.filter(n=>n.title.toLowerCase().includes(f)) : schoolNews;
+            const notF = f ? notices.filter(n=>n.title.toLowerCase().includes(f)) : notices;
+            
+            const renderItem = (n, color) => `<div class="news-list-item" data-title="${n.title}"><div class="news-date">${n.date}</div><div style="flex:1;">${n.title} ${n.tag?`<span style="background:${color}; color:white; padding:2px 8px; border-radius:20px; font-size:12px; margin-left:8px;">${n.tag}</span>`:''}</div></div>`;
+            
+            document.getElementById('schoolNewsList').innerHTML = newsF.map(n=>renderItem(n, '#e67e22')).join('') || '<div style="padding:20px; color:var(--text-muted);">暂无匹配新闻</div>';
+            document.getElementById('noticeList').innerHTML = notF.map(n=>renderItem(n, 'var(--accent)')).join('') || '<div style="padding:20px; color:var(--text-muted);">暂无匹配通知</div>';
+        }
+        renderNews();
+
+        // 渲染开学典礼图片
+        const photoGrid = document.getElementById('openingPhotosGrid');
+        if(photoGrid) {
+            let html = '';
+            for(let i=0; i<=8; i++) {
+                const fileName = i===0 ? '640.webp' : `640 (${i}).webp`;
+                const imgUrl = `https://raw.githubusercontent.com/fenglijituan/cloud-storage/main/勿删网页/${fileName}`;
+                html += `<div class="opening-photo-item"><img src="${imgUrl}" alt="开学典礼瞬间" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'200\\' height=\\'140\\'%3E%3Crect width=\\'200\\' height=\\'140\\' fill=\\'%23172a45\\'/%3E%3Ctext x=\\'50%\\' y=\\'50%\\' fill=\\'%238892b0\\' dominant-baseline=\\'middle\\' text-anchor=\\'middle\\'%3E暂无图片%3C/text%3E%3C/svg%3E';"></div>`;
+            }
+            photoGrid.innerHTML = html;
+        }
+
+        // Toast 提示
+        function toast(msg) {
+            const t = document.getElementById('liveToast');
+            t.textContent = msg; 
+            t.classList.add('show');
+            setTimeout(()=>t.classList.remove('show'), 2500);
+        }
+
+        // 搜索功能
+        const searchInput = document.getElementById('searchInput');
+        const resultBar = document.getElementById('searchResultBar');
+        function doSearch(){
+            const kw = searchInput.value.trim();
+            renderNews(kw);
+            if(kw) { 
+                resultBar.style.display='block'; 
+                resultBar.innerHTML=`<div style="display:flex; justify-content:space-between; align-items:center;"><span>🔍 正在显示“<strong style="color:var(--accent)">${kw}</strong>”的搜索结果</span> <button id="clearSearch" style="background:transparent; border:1px solid var(--text-muted); color:var(--text-muted); padding:4px 12px; border-radius:20px; cursor:pointer;">清除</button></div>`; 
+                document.getElementById('clearSearch').onclick=()=>{searchInput.value=''; renderNews(); resultBar.style.display='none';}; 
+            } else {
+                resultBar.style.display='none';
+            }
+        }
+        document.getElementById('searchBtn').onclick=doSearch;
+        searchInput.onkeypress=e=>e.key==='Enter'&&doSearch();
+
+        // 公众号信息爬取与展示
+        async function fetchWechatArticles() {
+            try {
+                // 模拟数据 - 后续可替换为真实爬取逻辑
+                const mockArticles = [
+                    {
+                        title: "善水文化主题艺术节圆满落幕，学生作品惊艳亮相",
+                        cover: "https://raw.githubusercontent.com/fenglijituan/cloud-storage/main/勿删网页/640.webp",
+                        date: "2026-04-15",
+                        url: "https://mp.weixin.qq.com/s/example1"
+                    },
+                    {
+                        title: "浑南八小篮球队再创佳绩，勇夺区小学生篮球联赛冠军",
+                        cover: "https://raw.githubusercontent.com/fenglijituan/cloud-storage/main/勿删网页/640%20(1).webp",
+                        date: "2026-04-08",
+                        url: "https://mp.weixin.qq.com/s/example2"
+                    },
+                    {
+                        title: "全国健康学校建设专家组莅临我校调研指导工作",
+                        cover: "https://raw.githubusercontent.com/fenglijituan/cloud-storage/main/勿删网页/640%20(2).webp",
+                        date: "2026-04-01",
+                        url: "https://mp.weixin.qq.com/s/example3"
+                    },
+                    {
+                        title: "善水课程体系获评辽宁省精品校本课程",
+                        cover: "https://raw.githubusercontent.com/fenglijituan/cloud-storage/main/勿删网页/640%20(3).webp",
+                        date: "2026-03-25",
+                        url: "https://mp.weixin.qq.com/s/example4"
+                    }
+                ];
+
+                // 更新公众号基本信息
+                document.getElementById('wechatName').textContent = '沈阳市浑南区第八小学';
+                document.getElementById('wechatDesc').textContent = '沁善如水 · 博学笃行 - 官方信息发布平台';
+                
+                // 渲染文章列表
+                renderWechatArticles(mockArticles);
+                
+                // 显示更新时间
+                const now = new Date();
+                document.getElementById('wechatUpdateTime').textContent = `更新于 ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                // 尝试真实爬取（注释掉，避免CORS问题）
+                // await tryRealFetch();
+                
+            } catch (error) {
+                console.error('获取公众号信息失败:', error);
+                document.getElementById('wechatArticles').innerHTML = '<div style="padding:40px; text-align:center; color:var(--text-muted);">获取公众号信息失败，请稍后重试</div>';
+            }
+        }
+
+        function renderWechatArticles(articles) {
+            const container = document.getElementById('wechatArticles');
+            if (articles.length === 0) {
+                container.innerHTML = '<div style="padding:40px; text-align:center; color:var(--text-muted);">暂无文章</div>';
+                return;
+            }
+
+            const articlesHTML = articles.map(article => `
+                <a href="${article.url}" target="_blank" class="article-item" onclick="toast('正在跳转至官方公众号')">
+                    <div class="article-cover">
+                        <img src="${article.cover}" alt="${article.title}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'80\' height=\'60\'%3E%3Crect width=\'80\' height=\'60\' fill=\'%23172a45\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' fill=\'%238892b0\' dominant-baseline=\'middle\' text-anchor=\'middle\' font-size=\'12\'%3E封面%3C/text%3E%3C/svg%3E'" loading="lazy">
+                    </div>
+                    <div class="article-content">
+                        <div class="article-title">${article.title}</div>
+                        <div class="article-date">${article.date}</div>
+                    </div>
+                </a>
+            `).join('');
+
+            container.innerHTML = articlesHTML;
+        }
+
+        // 真实爬取函数（为后续部署准备）
+        async function tryRealFetch() {
+            // 这里可以替换为真实的爬取逻辑
+            // 由于微信公众号有严格的反爬机制，建议使用后端服务
+            // 后续可以部署到Cloudflare Workers
+            
+            /*
+            const response = await fetch('https://your-cloudflare-worker.workers.dev/api/wechat', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                renderWechatArticles(data.articles);
+            }
+            */
+        }
+
+        // 点击交互
+        document.addEventListener('click',e=>{
+            const item = e.target.closest('.news-list-item');
+            if(item) toast(`正在打开: ${item.dataset.title}`);
+            if(e.target.id==='moreSchoolNews') { e.preventDefault(); toast('更多新闻请访问校内平台'); }
+            if(e.target.id==='moreNotices') { e.preventDefault(); toast('更多通知请登录智慧校园查看'); }
+        });
+
+        // 侧滑面板控制
+        const overlay=document.getElementById('authOverlay'), panel=document.getElementById('authPanel');
+        function openAuth(){ 
+            overlay.classList.add('active'); 
+            panel.classList.add('active'); 
+            switchToLogin();
+        }
+        function closeAuth(){ 
+            overlay.classList.remove('active'); 
+            panel.classList.remove('active'); 
+            // 清空表单
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('regUsername').value = '';
+            document.getElementById('regPassword').value = '';
+            document.getElementById('regPhone').value = '';
+        }
+        
+        // 登录/注册按钮事件
+        document.getElementById('loginBtn').onclick = e => {
+            e.preventDefault();
+            if (currentUser) {
+                // 已登录，点击显示用户信息
+                toast(`当前用户: ${currentUser.username}`);
+            } else {
+                openAuth();
+            }
+        };
+        
+        document.getElementById('registerBtn').onclick = e => {
+            e.preventDefault();
+            if (currentUser) {
+                // 已登录，点击退出
+                logoutUser();
+            } else {
+                openAuth();
+                switchToRegister();
+            }
+        };
+        
+        // 登录表单提交
+        document.getElementById('loginBtnPanel').onclick = () => {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                loginUser(username, password);
+            } catch (error) {
+                toast(error.message);
+            }
+        };
+        
+        // 注册表单提交
+        document.getElementById('registerBtnPanel').onclick = () => {
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            const phone = document.getElementById('regPhone').value;
+            
+            try {
+                registerUser(username, password, phone);
+            } catch (error) {
+                toast(error.message);
+            }
+        };
+        
+        // 切换表单事件
+        document.getElementById('switchToRegister').onclick = e => {
+            e.preventDefault();
+            switchToRegister();
+        };
+        
+        document.getElementById('switchToLogin').onclick = e => {
+            e.preventDefault();
+            switchToLogin();
+        };
+        
+        // 关闭按钮事件
+        document.getElementById('closeAuthPanel').onclick = closeAuth;
+        document.getElementById('closeAuthPanelReg').onclick = closeAuth;
+        overlay.onclick = closeAuth;
+
+        // 实时更新机制
+        let wechatUpdateInterval;
+        function startWechatUpdates() {
+            // 立即获取一次
+            fetchWechatArticles();
+            
+            // 设置定时更新（每30分钟更新一次）
+            wechatUpdateInterval = setInterval(fetchWechatArticles, 30 * 60 * 1000);
+            
+            // 页面可见性变化时重新获取
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    fetchWechatArticles();
+                }
+            });
+        }
+
+        // 手动刷新功能
+        function refreshWechatArticles() {
+            const updateTimeEl = document.getElementById('wechatUpdateTime');
+            updateTimeEl.textContent = '更新中...';
+            
+            fetchWechatArticles().then(() => {
+                toast('公众号信息已更新');
+            });
+        }
+
+        // 添加刷新按钮到公众号标题
+        const wechatHeader = document.querySelector('.wechat-card .news-header');
+        if (wechatHeader) {
+            const refreshBtn = document.createElement('a');
+            refreshBtn.href = '#';
+            refreshBtn.innerHTML = '🔄 刷新';
+            refreshBtn.style.cssText = 'color:#e2f1f8; text-decoration: none; font-size: 12px; margin-left: 10px; cursor: pointer;';
+            refreshBtn.onclick = (e) => {
+                e.preventDefault();
+                refreshWechatArticles();
+            };
+            wechatHeader.appendChild(refreshBtn);
+        }
+
+        // 用户认证系统
+        let currentUser = null;
+        const adminUsername = 'admin';
+        const adminPassword = 'HN8X';
+        
+        // 检查登录状态
+        function checkLoginStatus() {
+            const savedUser = localStorage.getItem('currentUser');
+            const loginTime = localStorage.getItem('loginTime');
+            
+            if (savedUser && loginTime) {
+                const loginDuration = Date.now() - parseInt(loginTime);
+                const fiveDays = 5 * 24 * 60 * 60 * 1000; // 5天
+                
+                if (loginDuration < fiveDays) {
+                    currentUser = JSON.parse(savedUser);
+                    updateUIForLoggedInUser();
+                    return true;
+                } else {
+                    // 登录过期，清除缓存
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('loginTime');
+                }
+            }
+            return false;
+        }
+        
+        // 更新UI显示登录状态
+        function updateUIForLoggedInUser() {
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            
+            if (currentUser) {
+                loginBtn.textContent = `👤 ${currentUser.username}`;
+                registerBtn.textContent = '退出登录';
+                
+                // 如果是管理员，显示设置按钮
+                if (currentUser.username === adminUsername) {
+                    if (!document.getElementById('adminSettingsBtn')) {
+                        const settingsBtn = document.createElement('a');
+                        settingsBtn.id = 'adminSettingsBtn';
+                        settingsBtn.href = '#';
+                        settingsBtn.innerHTML = '⚙️ 设置';
+                        settingsBtn.style.cssText = 'color:white; text-decoration:none; margin-left:28px; font-weight:500; cursor:pointer;';
+                        settingsBtn.onclick = (e) => {
+                            e.preventDefault();
+                            openAdminPanel();
+                        };
+                        document.querySelector('.top-right').appendChild(settingsBtn);
+                    }
+                }
+            }
+        }
+        
+        // 用户登录
+        function loginUser(username, password) {
+            // 模拟用户验证（后续可替换为真实API）
+            if (username === adminUsername && password === adminPassword) {
+                currentUser = { username: adminUsername, role: 'admin' };
+            } else {
+                // 检查普通用户（模拟）
+                const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+                const user = users.find(u => 
+                    (u.username === username || u.phone === username) && u.password === password
+                );
+                
+                if (user) {
+                    currentUser = { username: user.username, phone: user.phone, role: 'user' };
+                } else {
+                    throw new Error('用户名或密码错误');
+                }
+            }
+            
+            // 保存登录状态
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            localStorage.setItem('loginTime', Date.now().toString());
+            
+            updateUIForLoggedInUser();
+            closeAuth();
+            toast(`欢迎回来，${currentUser.username}！`);
+        }
+        
+        // 用户注册
+        function registerUser(username, password, phone) {
+            if (!username || !password || !phone) {
+                throw new Error('请填写完整信息');
+            }
+            
+            if (username === adminUsername) {
+                throw new Error('该用户名已被占用');
+            }
+            
+            // 检查用户名是否已存在
+            const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const existingUser = users.find(u => u.username === username || u.phone === phone);
+            
+            if (existingUser) {
+                throw new Error('用户名或手机号已存在');
+            }
+            
+            // 添加新用户
+            users.push({ username, password, phone, registeredAt: new Date().toISOString() });
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+            
+            toast('注册成功！请登录');
+            switchToLogin();
+        }
+        
+        // 退出登录
+        function logoutUser() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('loginTime');
+            
+            const loginBtn = document.getElementById('loginBtn');
+            const registerBtn = document.getElementById('registerBtn');
+            const settingsBtn = document.getElementById('adminSettingsBtn');
+            
+            loginBtn.textContent = '登录';
+            registerBtn.textContent = '注册';
+            
+            if (settingsBtn) {
+                settingsBtn.remove();
+            }
+            
+            toast('已退出登录');
+        }
+        
+        // 切换登录/注册表单
+        function switchToRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+        
+        function switchToLogin() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+        
+        // 管理员面板功能
+        function openAdminPanel() {
+            document.getElementById('adminPanel').classList.add('active');
+            document.getElementById('authOverlay').classList.add('active');
+            loadAdminData();
+        }
+        
+        function closeAdminPanel() {
+            document.getElementById('adminPanel').classList.remove('active');
+            document.getElementById('authOverlay').classList.remove('active');
+        }
+        
+        // 标签页切换
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // 移除所有active类
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+                
+                // 添加active类
+                tab.classList.add('active');
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`tab-${tabId}`).classList.add('active');
+                
+                // 加载对应标签页的数据
+                if (tabId === 'users') loadUserList();
+                if (tabId === 'notifications') loadNotifications();
+                if (tabId === 'articles') loadArticles();
+                if (tabId === 'analytics') loadAnalytics();
+                if (tabId === 'content') loadContentData();
+            });
+        });
+        
+        // 关闭管理员面板
+        document.getElementById('closeAdminPanel').addEventListener('click', closeAdminPanel);
+        
+        // 通知系统功能
+        function sendNotification() {
+            const target = document.getElementById('notificationTarget').value;
+            const title = document.getElementById('notificationTitle').value;
+            const content = document.getElementById('notificationContent').value;
+            
+            if (!title || !content) {
+                toast('请填写通知标题和内容');
+                return;
+            }
+            
+            const notification = {
+                id: Date.now(),
+                target: target,
+                title: title,
+                content: content,
+                timestamp: new Date().toISOString(),
+                sender: currentUser.username
+            };
+            
+            // 保存通知
+            const notifications = JSON.parse(localStorage.getItem('adminNotifications') || '[]');
+            notifications.unshift(notification);
+            localStorage.setItem('adminNotifications', JSON.stringify(notifications));
+            
+            // 清空表单
+            document.getElementById('notificationTitle').value = '';
+            document.getElementById('notificationContent').value = '';
+            
+            toast('通知发送成功');
+            loadNotifications();
+        }
+        
+        function loadNotifications() {
+            const notifications = JSON.parse(localStorage.getItem('adminNotifications') || '[]');
+            const container = document.getElementById('notificationList');
+            
+            if (notifications.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">暂无通知</div>';
+                return;
+            }
+            
+            const html = notifications.map(notif => `
+                <div class="admin-list-item">
+                    <div>
+                        <strong>${notif.title}</strong><br>
+                        <small>发送给: ${notif.target === 'all' ? '所有用户' : notif.target === 'admin' ? '仅管理员' : '特定用户'}</small>
+                    </div>
+                    <div>
+                        <small>${new Date(notif.timestamp).toLocaleDateString()}</small>
+                        <button class="admin-btn danger" onclick="deleteNotification(${notif.id})" style="margin-left:8px; padding:4px 8px; font-size:12px;">删除</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        function deleteNotification(id) {
+            const notifications = JSON.parse(localStorage.getItem('adminNotifications') || '[]');
+            const filtered = notifications.filter(n => n.id !== id);
+            localStorage.setItem('adminNotifications', JSON.stringify(filtered));
+            loadNotifications();
+            toast('通知已删除');
+        }
+        
+        // 用户管理功能
+        function loadUserList() {
+            const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const container = document.getElementById('userList');
+            
+            if (users.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">暂无注册用户</div>';
+                return;
+            }
+            
+            const html = users.map(user => `
+                <div class="admin-list-item">
+                    <div>
+                        <strong>${user.username}</strong><br>
+                        <small>手机: ${user.phone}</small>
+                    </div>
+                    <div>
+                        <small>注册: ${new Date(user.registeredAt).toLocaleDateString()}</small>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        // 内容管理功能
+        function addNewsItem() {
+            const title = prompt('请输入新闻标题:');
+            if (title) {
+                const news = JSON.parse(localStorage.getItem('schoolNews') || '[]');
+                const newItem = {
+                    date: new Date().toISOString().split('T')[0],
+                    title: title,
+                    tag: 'NEW'
+                };
+                news.unshift(newItem);
+                localStorage.setItem('schoolNews', JSON.stringify(news));
+                renderNews();
+                toast('新闻添加成功');
+            }
+        }
+        
+        function updateVideo() {
+            const url = document.getElementById('videoUrl').value;
+            const title = document.getElementById('videoTitle').value;
+            
+            if (url && title) {
+                localStorage.setItem('videoUrl', url);
+                localStorage.setItem('videoTitle', title);
+                toast('视频信息更新成功');
+            } else {
+                toast('请填写视频URL和标题');
+            }
+        }
+        
+        // 系统设置功能
+        function exportData() {
+            const data = {
+                users: JSON.parse(localStorage.getItem('registeredUsers') || '[]'),
+                notifications: JSON.parse(localStorage.getItem('adminNotifications') || '[]'),
+                news: JSON.parse(localStorage.getItem('schoolNews') || '[]')
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'website-data-backup.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            toast('数据导出成功');
+        }
+        
+        function clearCache() {
+            if (confirm('确定要清除所有缓存数据吗？此操作不可逆！')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+        
+        // 加载管理员数据
+        function loadAdminData() {
+            loadUserList();
+            loadNotifications();
+            
+            // 加载视频信息
+            const savedUrl = localStorage.getItem('videoUrl');
+            const savedTitle = localStorage.getItem('videoTitle');
+            if (savedUrl) document.getElementById('videoUrl').value = savedUrl;
+            if (savedTitle) document.getElementById('videoTitle').value = savedTitle;
+        }
+        
+        // 联系管理员功能
+        function submitContactMessage() {
+            const name = document.getElementById('contactName').value;
+            const phone = document.getElementById('contactPhone').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            if (!name || !message) {
+                toast('请填写姓名和消息内容');
+                return;
+            }
+            
+            const contactMessage = {
+                id: Date.now(),
+                name: name,
+                phone: phone,
+                email: email,
+                message: message,
+                timestamp: new Date().toISOString(),
+                status: '未读'
+            };
+            
+            // 保存联系消息
+            const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            messages.unshift(contactMessage);
+            localStorage.setItem('contactMessages', JSON.stringify(messages));
+            
+            // 清空表单
+            document.getElementById('contactName').value = '';
+            document.getElementById('contactPhone').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactMessage').value = '';
+            
+            toast('消息发送成功！管理员会尽快回复您');
+        }
+        
+        // 加载联系消息（管理员使用）
+        function loadContactMessages() {
+            const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            const container = document.getElementById('contactMessages');
+            
+            if (messages.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">暂无联系消息</div>';
+                return;
+            }
+            
+            const html = messages.map(msg => `
+                <div class="admin-list-item">
+                    <div>
+                        <strong>${msg.name}</strong> 
+                        <span style="background:${msg.status === '未读' ? '#e74c3c' : '#27ae60'}; color:white; padding:2px 6px; border-radius:12px; font-size:10px; margin-left:8px;">${msg.status}</span><br>
+                        <small>电话: ${msg.phone || '未提供'} | 邮箱: ${msg.email || '未提供'}</small><br>
+                        <small style="color:var(--text-muted);">${msg.message}</small>
+                    </div>
+                    <div>
+                        <small>${new Date(msg.timestamp).toLocaleString()}</small><br>
+                        <button class="admin-btn" onclick="markAsRead(${msg.id})" style="padding:4px 8px; font-size:12px; margin-top:4px;">标记已读</button>
+                        <button class="admin-btn danger" onclick="deleteContactMessage(${msg.id})" style="padding:4px 8px; font-size:12px; margin-top:4px;">删除</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        function markAsRead(id) {
+            const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            const message = messages.find(m => m.id === id);
+            if (message) {
+                message.status = '已读';
+                localStorage.setItem('contactMessages', JSON.stringify(messages));
+                loadContactMessages();
+                toast('消息标记为已读');
+            }
+        }
+        
+        function deleteContactMessage(id) {
+            if (confirm('确定要删除这条联系消息吗？')) {
+                const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+                const filtered = messages.filter(m => m.id !== id);
+                localStorage.setItem('contactMessages', JSON.stringify(filtered));
+                loadContactMessages();
+                toast('联系消息已删除');
+            }
+        }
+        
+        // 内部文章管理功能
+        function saveArticle() {
+            const title = document.getElementById('articleTitle').value;
+            const content = document.getElementById('articleContent').value;
+            const category = document.getElementById('articleCategory').value;
+            
+            if (!title || !content) {
+                toast('请填写文章标题和内容');
+                return;
+            }
+            
+            const article = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                category: category,
+                author: currentUser.username,
+                timestamp: new Date().toISOString(),
+                status: 'published'
+            };
+            
+            // 保存到KV存储（模拟）
+            const articles = JSON.parse(localStorage.getItem('internalArticles') || '[]');
+            articles.unshift(article);
+            localStorage.setItem('internalArticles', JSON.stringify(articles));
+            
+            toast('文章保存成功！');
+            clearArticleForm();
+            loadArticles();
+        }
+        
+        function previewArticle() {
+            const title = document.getElementById('articleTitle').value;
+            const content = document.getElementById('articleContent').value;
+            
+            if (!title || !content) {
+                toast('请填写文章标题和内容');
+                return;
+            }
+            
+            const previewWindow = window.open('', '_blank');
+            previewWindow.document.write(`
+                <html>
+                <head><title>文章预览 - ${title}</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h1>${title}</h1>
+                    <div style="white-space: pre-wrap; line-height: 1.6;">${content}</div>
+                    <hr>
+                    <p><small>预览时间: ${new Date().toLocaleString()}</small></p>
+                </body>
+                </html>
+            `);
+        }
+        
+        function clearArticleForm() {
+            document.getElementById('articleTitle').value = '';
+            document.getElementById('articleContent').value = '';
+            document.getElementById('articleCategory').value = 'news';
+        }
+        
+        function loadArticles() {
+            const articles = JSON.parse(localStorage.getItem('internalArticles') || '[]');
+            const container = document.getElementById('articleList');
+            
+            if (articles.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">暂无文章</div>';
+                return;
+            }
+            
+            const html = articles.map(article => `
+                <div class="admin-list-item">
+                    <div style="flex: 1;">
+                        <strong>${article.title}</strong>
+                        <span style="background: #3498db; color:white; padding:2px 6px; border-radius:12px; font-size:10px; margin-left:8px;">${getCategoryName(article.category)}</span><br>
+                        <small>作者: ${article.author} | 时间: ${new Date(article.timestamp).toLocaleString()}</small>
+                    </div>
+                    <div>
+                        <button class="admin-btn" onclick="editArticle(${article.id})" style="padding:4px 8px; font-size:12px;">编辑</button>
+                        <button class="admin-btn danger" onclick="deleteArticle(${article.id})" style="padding:4px 8px; font-size:12px;">删除</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        function getCategoryName(category) {
+            const categories = {
+                'news': '新闻动态',
+                'notice': '通知公告',
+                'internal': '内部文件',
+                'guide': '使用指南'
+            };
+            return categories[category] || category;
+        }
+        
+        function editArticle(id) {
+            const articles = JSON.parse(localStorage.getItem('internalArticles') || '[]');
+            const article = articles.find(a => a.id === id);
+            
+            if (article) {
+                document.getElementById('articleTitle').value = article.title;
+                document.getElementById('articleContent').value = article.content;
+                document.getElementById('articleCategory').value = article.category;
+                
+                // 删除原文章
+                const filtered = articles.filter(a => a.id !== id);
+                localStorage.setItem('internalArticles', JSON.stringify(filtered));
+                
+                toast('文章已加载到编辑框，修改后点击保存');
+            }
+        }
+        
+        function deleteArticle(id) {
+            if (confirm('确定要删除这篇文章吗？')) {
+                const articles = JSON.parse(localStorage.getItem('internalArticles') || '[]');
+                const filtered = articles.filter(a => a.id !== id);
+                localStorage.setItem('internalArticles', JSON.stringify(filtered));
+                loadArticles();
+                toast('文章已删除');
+            }
+        }
+        
+        function filterArticles() {
+            const searchTerm = document.getElementById('searchArticles').value.toLowerCase();
+            const articles = JSON.parse(localStorage.getItem('internalArticles') || '[]');
+            const container = document.getElementById('articleList');
+            
+            const filtered = articles.filter(article => 
+                article.title.toLowerCase().includes(searchTerm) ||
+                article.content.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">未找到匹配的文章</div>';
+                return;
+            }
+            
+            const html = filtered.map(article => `
+                <div class="admin-list-item">
+                    <div style="flex: 1;">
+                        <strong>${article.title}</strong>
+                        <span style="background: #3498db; color:white; padding:2px 6px; border-radius:12px; font-size:10px; margin-left:8px;">${getCategoryName(article.category)}</span><br>
+                        <small>作者: ${article.author} | 时间: ${new Date(article.timestamp).toLocaleString()}</small>
+                    </div>
+                    <div>
+                        <button class="admin-btn" onclick="editArticle(${article.id})" style="padding:4px 8px; font-size:12px;">编辑</button>
+                        <button class="admin-btn danger" onclick="deleteArticle(${article.id})" style="padding:4px 8px; font-size:12px;">删除</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = html;
+        }
+        
+        // 完善通知系统功能
+        function scheduleNotification() {
+            const target = document.getElementById('notificationTarget').value;
+            const title = document.getElementById('notificationTitle').value;
+            const content = document.getElementById('notificationContent').value;
+            
+            if (!title || !content) {
+                toast('请填写通知标题和内容');
+                return;
+            }
+            
+            const scheduleTime = prompt('请输入定时发送时间（例如：2026-04-16 14:30）');
+            if (!scheduleTime) return;
+            
+            const notification = {
+                id: Date.now(),
+                target: target,
+                title: title,
+                content: content,
+                timestamp: new Date().toISOString(),
+                scheduleTime: scheduleTime,
+                status: 'scheduled',
+                sender: currentUser.username
+            };
+            
+            const notifications = JSON.parse(localStorage.getItem('adminNotifications') || '[]');
+            notifications.unshift(notification);
+            localStorage.setItem('adminNotifications', JSON.stringify(notifications));
+            
+            document.getElementById('notificationTitle').value = '';
+            document.getElementById('notificationContent').value = '';
+            
+            toast(`通知已定时，将在 ${scheduleTime} 发送`);
+            loadNotifications();
+        }
+        
+        function clearAllNotifications() {
+            if (confirm('确定要清空所有通知吗？此操作不可逆！')) {
+                localStorage.setItem('adminNotifications', JSON.stringify([]));
+                loadNotifications();
+                toast('所有通知已清空');
+            }
+        }
+        
+        // 数据可视化功能
+        function loadAnalytics() {
+            // 统计数据
+            const users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            const articles = JSON.parse(localStorage.getItem('internalArticles') || '[]');
+            const notifications = JSON.parse(localStorage.getItem('adminNotifications') || '[]');
+            
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('totalArticles').textContent = articles.length;
+            document.getElementById('totalNotifications').textContent = notifications.length;
+            
+            // 最近7天数据统计
+            const sevenDaysAgo = new Date();
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            
+            const recentUsers = users.filter(user => new Date(user.registeredAt) >= sevenDaysAgo).length;
+            const recentArticles = articles.filter(article => new Date(article.timestamp) >= sevenDaysAgo).length;
+            const recentNotifications = notifications.filter(notif => new Date(notif.timestamp) >= sevenDaysAgo).length;
+            
+            document.getElementById('recentStats').innerHTML = `
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 18px; font-weight: bold; color: var(--accent);">${recentUsers}</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">7天内注册</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 18px; font-weight: bold; color: var(--accent);">${recentArticles}</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">7天内发布</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 18px; font-weight: bold; color: var(--accent);">${recentNotifications}</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">7天内通知</div>
+                    </div>
+                </div>
+            `;
+            
+            // 简单的图表（使用CSS模拟）
+            const activityData = generateActivityData();
+            renderActivityChart(activityData);
+        }
+        
+        function generateActivityData() {
+            // 生成模拟的活跃度数据
+            return {
+                labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                data: [65, 59, 80, 81, 56, 55, 40]
+            };
+        }
+        
+        function renderActivityChart(data) {
+            const container = document.getElementById('userActivityChart');
+            const maxValue = Math.max(...data.data);
+            
+            const chartHTML = `
+                <div style="display: flex; align-items: end; height: 150px; gap: 8px; padding: 16px 0;">
+                    ${data.data.map((value, index) => `
+                        <div style="display: flex; flex-direction: column; align-items: center; flex: 1;">
+                            <div style="background: var(--accent); width: 20px; height: ${(value / maxValue) * 100}px; border-radius: 4px 4px 0 0;"></div>
+                            <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">${data.labels[index]}</div>
+                            <div style="font-size: 10px; color: var(--accent);">${value}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            container.innerHTML = chartHTML;
+        }
+        
+        // 更新加载管理员数据函数
+        function loadAdminData() {
+            loadUserList();
+            loadNotifications();
+            loadContactMessages();
+            loadArticles();
+            loadAnalytics();
+            
+            // 加载视频信息
+            const savedUrl = localStorage.getItem('videoUrl');
+            const savedTitle = localStorage.getItem('videoTitle');
+            if (savedUrl) document.getElementById('videoUrl').value = savedUrl;
+            if (savedTitle) document.getElementById('videoTitle').value = savedTitle;
+        }
+        
+        // 页面加载完成后启动更新和检查登录状态
+        document.addEventListener('DOMContentLoaded', () => {
+            startWechatUpdates();
+            checkLoginStatus();
+        });
+
+        // 导航平滑滚动与高亮
+        document.querySelectorAll('.nav-menu a').forEach(link=>{
+            link.addEventListener('click', e=>{
+                e.preventDefault();
+                const id = link.getAttribute('href').substring(1);
+                const el = document.getElementById(id);
+                if(el) el.scrollIntoView({behavior:'smooth'});
+                document.querySelectorAll('.nav-menu a').forEach(l=>l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // 返回顶部
+        const goTop=document.getElementById('goTop');
+        window.onscroll=()=> goTop.classList.toggle('show', window.scrollY>400);
+        goTop.onclick=()=> window.scrollTo({top:0, behavior:'smooth'});
+
+        // 数字滚动动画
+        const observer = new IntersectionObserver((entries)=>{ 
+            if(entries[0].isIntersecting) {
+                document.querySelectorAll('.countup').forEach(el=>{ 
+                    const t=parseFloat(el.dataset.target); 
+                    if(!el.classList.contains('done')){ 
+                        el.classList.add('done'); 
+                        let c=0; 
+                        const inv=t/40; 
+                        const timer=setInterval(()=>{ 
+                            c+=inv; 
+                            if(c>=t){ el.textContent=t; clearInterval(timer);} 
+                            else { el.textContent = t % 1 !== 0 ? c.toFixed(2) : Math.floor(c); }
+                        }, 25); 
+                    }
+                }); 
+            }
+        },{threshold:0.3});
+        observer.observe(document.getElementById('statsPanel'));
+    })();
+</script>
+</body>
+</html>
