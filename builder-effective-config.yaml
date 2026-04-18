@@ -1,0 +1,108 @@
+directories:
+  output: release
+  buildResources: build
+appId: com.flplayer.app
+productName: FL Player
+files:
+  - filter:
+      - dist/**/*
+      - dist-electron/**/*
+win:
+  target:
+    - nsis
+  icon: icon.ico
+  artifactName: FL-Player-Setup-${version}.${ext}
+  fileAssociations:
+    - ext: mp4
+      name: FL Player Video File
+      description: MP4 Video File
+      role: Viewer
+    - ext: avi
+      name: FL Player Video File
+      description: AVI Video File
+      role: Viewer
+    - ext: wmv
+      name: FL Player Video File
+      description: WMV Video File
+      role: Viewer
+    - ext: mkv
+      name: FL Player Video File
+      description: MKV Video File
+      role: Viewer
+    - ext: mov
+      name: FL Player Video File
+      description: MOV Video File
+      role: Viewer
+    - ext: webm
+      name: FL Player Video File
+      description: WebM Video File
+      role: Viewer
+    - ext: mp3
+      name: FL Player Audio File
+      description: MP3 Audio File
+      role: Viewer
+    - ext: aac
+      name: FL Player Audio File
+      description: AAC Audio File
+      role: Viewer
+    - ext: m4a
+      name: FL Player Audio File
+      description: M4A Audio File
+      role: Viewer
+    - ext: flac
+      name: FL Player Audio File
+      description: FLAC Audio File
+      role: Viewer
+    - ext: wma
+      name: FL Player Audio File
+      description: WMA Audio File
+      role: Viewer
+    - ext: ogg
+      name: FL Player Audio File
+      description: OGG Audio File
+      role: Viewer
+    - ext: wav
+      name: FL Player Audio File
+      description: WAV Audio File
+      role: Viewer
+    - ext: jpg
+      name: FL Player Image File
+      description: JPEG Image File
+      role: Viewer
+    - ext: jpeg
+      name: FL Player Image File
+      description: JPEG Image File
+      role: Viewer
+    - ext: png
+      name: FL Player Image File
+      description: PNG Image File
+      role: Viewer
+    - ext: gif
+      name: FL Player Image File
+      description: GIF Image File
+      role: Viewer
+    - ext: bmp
+      name: FL Player Image File
+      description: BMP Image File
+      role: Viewer
+    - ext: webp
+      name: FL Player Image File
+      description: WebP Image File
+      role: Viewer
+    - ext: amr
+      name: FL Player Audio File
+      description: AMR Audio File
+      role: Viewer
+electronDownload:
+  mirror: https://npmmirror.com/mirrors/electron/
+  customDir: v28.3.3
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: FL Player
+  include: build/installer.nsh
+  perMachine: false
+  allowElevation: true
+electronVersion: 28.3.3
